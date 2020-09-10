@@ -7,18 +7,6 @@ import LogoImage from 'assets/logo.png';
 import LogoSplash from 'assets/logo_splash.png';
 import DotsImage from 'assets/dots.png';
 
-const StyledWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 20px 80px 20px 20px;
-`;
-
 const StyledLogoWrapper = styled.div`
   position: relative;
   display: flex;
@@ -66,18 +54,14 @@ const StyledLogoWrapper = styled.div`
 
 const StyledLogoImage = styled.img`
   position: relative;
+  top: -10px;
   z-index: 1;
 `;
 
-const Header = () => (
-  <StyledWrapper>
-    <StyledLogoWrapper as={Link} to="/">
-      <StyledLogoImage src={LogoImage} alt="FUT DropBack" />
-    </StyledLogoWrapper>
-    <div>
-      Welcome <b>AirJapes</b>
-    </div>
-  </StyledWrapper>
+const Logo = () => (
+  <StyledLogoWrapper as={Link} to="/">
+    <StyledLogoImage src={LogoImage} alt="FUT DropBack" />
+  </StyledLogoWrapper>
 );
 
-export default Header;
+export default Logo;

@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import ButtonIcon from 'components/ButtonIcon/ButtonIcon';
+import ButtonIcon from 'components/common/ButtonIcon';
+import { routes } from 'routes';
 
 import HomeIcon from 'assets/icons/home.svg';
 import FilterIcon from 'assets/icons/filter.svg';
@@ -63,22 +64,42 @@ const StyledListItem = styled.li`
 
 const StyledButtonIcon = styled(ButtonIcon)`
   filter: invert(1);
+  background-size: 50%;
 
   &.active {
     opacity: 1;
   }
 `;
 
+const navItems = [
+  {
+    to: routes.home,
+    icon: HomeIcon,
+    title: 'Home page',
+  },
+  {
+    to: routes.tactics,
+    icon: FilterIcon,
+    title: 'Tactics list',
+  },
+];
+
 const Sidebar = () => (
   <StyledWrapper>
     <nav>
       <StyledList>
-        <StyledListItem>
-          <StyledButtonIcon as={NavLink} exact to="/" activeclass="active" iconUrl={HomeIcon} />
-        </StyledListItem>
-        <StyledListItem>
-          <StyledButtonIcon as={NavLink} to="/tactics" activeclass="active" iconUrl={FilterIcon} />
-        </StyledListItem>
+        {navItems.map(({ to, icon, title }) => (
+          <StyledListItem key={to}>
+            <StyledButtonIcon
+              as={NavLink}
+              exact
+              to={to}
+              activeclass="active"
+              icon={icon}
+              title={title}
+            />
+          </StyledListItem>
+        ))}
       </StyledList>
     </nav>
   </StyledWrapper>
