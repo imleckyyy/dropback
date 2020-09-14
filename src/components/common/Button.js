@@ -16,14 +16,24 @@ const Button = styled.button`
   background: ${({ theme }) => theme.gradient};
   color: ${({ theme }) => theme.fontColor.light};
   border: none;
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   text-decoration: none;
   padding: 20px 60px;
   cursor: pointer;
+  outline: none;
 
   &:hover {
     background: ${({ theme }) => theme.darkGray};
   }
+
+  ${({ primary }) =>
+    primary &&
+    css`
+      background: ${({ theme }) => theme.darkGray};
+      &:hover {
+        background: ${({ theme }) => theme.gradient};
+      }
+    `}
 
   ${({ isLoading }) =>
     isLoading &&
@@ -48,7 +58,7 @@ const Button = styled.button`
     css`
       background: none;
       color: ${({ theme }) => theme.fontColor.dark};
-      padding: 0;
+      padding: 0 15px;
 
       &:hover {
         background: ${({ theme }) => theme.gradient};

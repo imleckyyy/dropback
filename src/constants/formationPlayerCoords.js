@@ -1,0 +1,138 @@
+export default {
+  10 /** 4-2-2-2 */: [
+    {
+      id: 1,
+      posX: 50,
+      posY: 10,
+      positionName: 'GK',
+    },
+    {
+      id: 2,
+      posX: 20,
+      posY: 30,
+      positionName: 'LB',
+    },
+    {
+      id: 3,
+      posX: 40,
+      posY: 28,
+      positionName: 'CB',
+    },
+    {
+      id: 4,
+      posX: 60,
+      posY: 28,
+      positionName: 'CB',
+    },
+    {
+      id: 5,
+      posX: 80,
+      posY: 30,
+      positionName: 'RB',
+    },
+    {
+      id: 6,
+      posX: 25,
+      posY: 55,
+      positionName: 'CAM',
+    },
+    {
+      id: 7,
+      posX: 40,
+      posY: 45,
+      positionName: 'CDM',
+    },
+    {
+      id: 8,
+      posX: 60,
+      posY: 45,
+      positionName: 'CDM',
+    },
+    {
+      id: 9,
+      posX: 75,
+      posY: 55,
+      positionName: 'CAM',
+    },
+    {
+      id: 10,
+      posX: 40,
+      posY: 70,
+      positionName: 'ST',
+    },
+    {
+      id: 11,
+      posX: 60,
+      posY: 70,
+      positionName: 'ST',
+    },
+  ],
+  11 /** 4-2-4 */: [
+    {
+      id: 1,
+      posX: 50,
+      posY: 10,
+      positionName: 'GK',
+    },
+    {
+      id: 2,
+      posX: 20,
+      posY: 30,
+      positionName: 'LB',
+    },
+    {
+      id: 3,
+      posX: 40,
+      posY: 28,
+      positionName: 'CB',
+    },
+    {
+      id: 4,
+      posX: 60,
+      posY: 28,
+      positionName: 'CB',
+    },
+    {
+      id: 5,
+      posX: 80,
+      posY: 30,
+      positionName: 'RB',
+    },
+    {
+      id: 6,
+      posX: 25,
+      posY: 65,
+      positionName: 'LW',
+    },
+    {
+      id: 7,
+      posX: 40,
+      posY: 47,
+      positionName: 'CDM',
+    },
+    {
+      id: 8,
+      posX: 60,
+      posY: 47,
+      positionName: 'CDM',
+    },
+    {
+      id: 9,
+      posX: 75,
+      posY: 65,
+      positionName: 'RW',
+    },
+    {
+      id: 10,
+      posX: 40,
+      posY: 70,
+      positionName: 'ST',
+    },
+    {
+      id: 11,
+      posX: 60,
+      posY: 70,
+      positionName: 'ST',
+    },
+  ],
+};

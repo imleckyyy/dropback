@@ -22,6 +22,7 @@ const StyledWrapper = styled.aside`
   padding: 140px 10px;
   background: ${({ theme }) => theme.darkGray};
   color: ${({ theme }) => theme.fontColor.light};
+  z-index: 2;
 
   &:before {
     content: '';

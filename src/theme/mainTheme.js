@@ -16,7 +16,7 @@ export default {
     s: '1.6rem',
     m: '2.1rem',
     l: '2.4rem',
-    xl: '4rem',
+    xl: '3.7rem',
   },
   fontColor: {
     light: 'rgb(255,255,255)',

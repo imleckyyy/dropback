@@ -21,6 +21,7 @@ const GlobalStyles = createGlobalStyle`
         padding: 0;
         margin: 0;
         background-image: url(${() => bgImage1}), url(${() => bgImage2});
+        background-attachment: fixed, fixed;
         background-position: 20% 20%, right bottom;
         background-repeat: no-repeat, no-repeat;
     }
