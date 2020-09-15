@@ -1,9 +1,13 @@
 import React from 'react';
+import StepTwo from 'components/StepTwo';
+import { TacticProvider } from 'context/TacticContext';
 
-const Main = () => (
-  <>
-    <p>Main view</p>
-  </>
-);
+const Main = () => {
+  return (
+    <TacticProvider>
+      <StepTwo />
+    </TacticProvider>
+  );
+};
 
 export default Main;
