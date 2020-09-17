@@ -22,7 +22,7 @@ const StyledInput = styled.input`
   border: 1px solid ${({ theme }) => theme.lightGray};
   padding: 25px 20px 15px;
   color: ${({ theme }) => theme.fontColor.dark};
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   outline: none;
   resize: none;
 

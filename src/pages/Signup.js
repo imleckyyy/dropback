@@ -52,6 +52,7 @@ const Signup = () => {
   const { setAuthState, isAuthenticated } = authContext;
 
   const { apiAxios } = useContext(FetchContext);
+
   const [signupSuccess, setSignupSuccess] = useState();
   const [signupError, setSignupError] = useState();
   const [loginLoading, setLoginLoading] = useState(false);

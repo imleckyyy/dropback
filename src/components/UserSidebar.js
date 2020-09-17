@@ -1,14 +1,16 @@
 import React, { useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Formik } from 'formik';
 import useOutsideClick from 'hooks/useOutsideClick';
+
 import Heading from 'components/common/Heading';
-import Input from 'components/common/Input';
+import Paragraph from 'components/common/Paragraph';
 import Button from 'components/common/Button';
+
 import { AuthContext } from 'context/AuthContext';
 
 const StyledWrapper = styled.div`
+  position: relative;
   display: block;
   width: 80%;
   max-width: 500px;
@@ -16,18 +18,66 @@ const StyledWrapper = styled.div`
   position: fixed;
   right: 0%;
   top: 0%;
-  background: ${({ theme }) => theme.darkGray};
-  color: ${({ theme }) => theme.fontColor.light};
-  z-index: 1;
-  padding: 20px;
-  border-left: 10px solid ${({ theme }) => theme.primary};
-  transform: translateX(${({ isVisible }) => (isVisible ? '0' : '100%')});
+  background: ${({ theme }) => theme.lightGray};
+  color: ${({ theme }) => theme.fontColor.dark};
+  z-index: 4;
+  padding: 100px 30px;
+  transform: translateX(${({ isVisible }) => (isVisible ? '0' : '110%')});
   transition: transform 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+  &:before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    left: -10px;
+    top: 0;
+    background: ${({ theme }) => theme.gradient};
+  }
 `;
 
-const StyledInput = styled(Input)`
-  width: 100%;
-  margin-bottom: 10px;
+const StyledHeader = styled.header`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+`;
+
+const StyledCloseButton = styled(Button)`
+  display: block;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  position: absolute;
+  left: -25px;
+  top: 50%;
+  transform: ${({ isVisible }) =>
+    isVisible ? 'translateY(-50%) scale(1)' : 'translateY(-50%) scale(0)'};
+  transition: transform 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  outline: none;
+
+  &:before,
+  &:after {
+    content: '';
+    display: inline-block;
+    width: 60%;
+    height: 2px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 50%;
+    background: #ffffff;
+  }
+
+  &:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
 `;
 
 const UserSidebar = ({ isVisible, setSidebarVisibility }) => {
@@ -47,54 +97,19 @@ const UserSidebar = ({ isVisible, setSidebarVisibility }) => {
     setSidebarVisibility(false);
   };
 
+  const closeSidebar = () => setSidebarVisibility(false);
+
   return (
     <StyledWrapper isVisible={isVisible} ref={ref}>
-      <Heading>Welcome {authState.userInfo.login}</Heading>
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.email) {
-            errors.email = 'Email is required';
-          } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-            errors.email = 'Invalid email address';
-          }
-          if (!values.password) {
-            errors.password = 'Password is required';
-          }
-          return errors;
-        }}
-        onSubmit={(values) => console.log(values)}
-      >
-        {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <StyledInput
-              type="email"
-              name="email"
-              label="Email"
-              placeholder="Email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-              errors={errors.email && touched.email && errors.email}
-            />
-            <StyledInput
-              type="password"
-              name="password"
-              label="Password"
-              placeholder="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-              errors={errors.password && touched.password && errors.password}
-            />
-            <Button type="submit">Update</Button>
-          </form>
-        )}
-      </Formik>
+      <StyledHeader>
+        <Paragraph>Welcome</Paragraph>
+        <Heading>{authState.userInfo.login}</Heading>
+      </StyledHeader>
+
       <Button type="button" onClick={logoutFn}>
         Logout
       </Button>
+      <StyledCloseButton type="button" onClick={closeSidebar} isVisible={isVisible} />
     </StyledWrapper>
   );
 };

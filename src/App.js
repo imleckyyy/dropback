@@ -9,6 +9,7 @@ import { routes } from 'routes';
 
 import Main from 'pages/Main';
 import Tactics from 'pages/Tactics';
+import Creator from 'pages/Creator';
 import Signin from 'pages/Signin';
 import Signup from 'pages/Signup';
 
@@ -30,6 +31,11 @@ const AppRoutes = () => (
     <Route path={routes.tactics}>
       <AppShell>
         <Tactics />
+      </AppShell>
+    </Route>
+    <Route path={routes.creator}>
+      <AppShell>
+        <Creator />
       </AppShell>
     </Route>
   </Switch>

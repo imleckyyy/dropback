@@ -3,4 +3,5 @@ export const routes = {
   signin: '/signin',
   signup: '/signup',
   tactics: '/tactics',
+  creator: '/creator',
 };
