@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
+import { useHistory } from 'react-router-dom';
 import Button from 'components/common/Button';
 
 const StyledWrapper = styled.form`
@@ -30,17 +31,23 @@ const StyledSearchButton = styled(Button)`
 `;
 
 const SearchBar = () => {
+  const history = useHistory();
+
+  const submitFn = (value) => {
+    history.push(`/tactics?text=${value}`);
+  };
+
   return (
-    <Formik initialValues={{ query: '' }} onSubmit={(values) => console.log(values)}>
+    <Formik initialValues={{ text: '' }} onSubmit={({ text }) => submitFn(text)}>
       {({ values, handleChange, handleBlur, handleSubmit }) => (
         <StyledWrapper autoComplete="off" onSubmit={handleSubmit}>
           <StyledInput
             type="text"
             placeholder="Search for tactics (eg. 433, airjapes, etc.)"
-            name="query"
+            name="text"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.query}
+            value={values.text}
           />
           <StyledSearchButton type="submit">Search</StyledSearchButton>
         </StyledWrapper>

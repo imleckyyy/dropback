@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -37,11 +37,16 @@ const StyledWrapper = styled.div`
     background: ${({ theme }) => theme.fontColor.light};
   }
 
-  &--disabled {
-    cursor: not-allowed;
-    background-color: #eee;
-    background-image: linear-gradient(to top, #ddd, #eee 33%);
-  }
+  ${({ isDisabled }) =>
+    isDisabled &&
+    css`
+      cursor: default;
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    `}
 `;
 
 const StyledSelect = styled.select`
@@ -73,7 +78,7 @@ const StyledSelect = styled.select`
   }
 `;
 
-const Select = ({ name, defaultOption, options, onChange }) => {
+const Select = ({ name, defaultOption, options, onChange, disabled }) => {
   const [selectedOption, setSelectedOption] = useState(defaultOption);
 
   useEffect(() => {
@@ -87,8 +92,14 @@ const Select = ({ name, defaultOption, options, onChange }) => {
   };
 
   return (
-    <StyledWrapper>
-      <StyledSelect name={name} id={name} value={selectedOption} onChange={handleChange}>
+    <StyledWrapper isDisabled={disabled}>
+      <StyledSelect
+        name={name}
+        id={name}
+        value={selectedOption}
+        onChange={handleChange}
+        disabled={disabled}
+      >
         {options.map((item) => (
           <option key={item.value} value={item.value}>
             {item.label}
@@ -109,6 +120,11 @@ Select.propTypes = {
     }),
   ).isRequired,
   onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+Select.defaultProps = {
+  disabled: false,
 };
 
 export default Select;

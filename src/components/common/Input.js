@@ -13,15 +13,17 @@ const StyledLabel = styled.label`
   top: 20px;
   transform: scale(1);
   font-size: ${({ theme }) => theme.fontSize.xs};
-  color: #7d7e80;
-  transition: transform 300ms ease;
+  color: ${({ theme }) => theme.fontColor.light};
+  transition: transform 300ms ease, opacity 300ms ease;
+  opacity: 0.5;
   cursor: text;
 `;
 
 const StyledInput = styled.input`
-  border: 1px solid ${({ theme }) => theme.lightGray};
+  border: 1px solid ${({ theme }) => theme.darkGray};
+  background: ${({ theme }) => theme.darkGray};
   padding: 25px 20px 15px;
-  color: ${({ theme }) => theme.fontColor.dark};
+  color: ${({ theme }) => theme.fontColor.light};
   font-family: 'Montserrat', sans-serif;
   outline: none;
   resize: none;

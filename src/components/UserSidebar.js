@@ -33,7 +33,7 @@ const StyledWrapper = styled.div`
     position: absolute;
     left: -10px;
     top: 0;
-    background: ${({ theme }) => theme.gradient};
+    background: linear-gradient(0deg, rgba(107, 106, 236, 1) 0%, rgba(187, 34, 250, 1) 100%);
   }
 `;
 
@@ -49,14 +49,43 @@ const StyledCloseButton = styled(Button)`
   width: 40px;
   height: 40px;
   padding: 0;
-  border-radius: 50%;
   position: absolute;
   left: -25px;
   top: 50%;
+  background: transparent;
   transform: ${({ isVisible }) =>
     isVisible ? 'translateY(-50%) scale(1)' : 'translateY(-50%) scale(0)'};
-  transition: transform 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  outline: none;
+  transition: transform 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.5s;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.gradient};
+    transition: transform 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  }
+
+  &:hover {
+    background: transparent;
+
+    &:before {
+      transform: scale(1.4);
+    }
+  }
+`;
+
+const StyledCloseButtonInner = styled.span`
+  display: block;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
   &:before,
   &:after {
@@ -109,7 +138,9 @@ const UserSidebar = ({ isVisible, setSidebarVisibility }) => {
       <Button type="button" onClick={logoutFn}>
         Logout
       </Button>
-      <StyledCloseButton type="button" onClick={closeSidebar} isVisible={isVisible} />
+      <StyledCloseButton type="button" onClick={closeSidebar} isVisible={isVisible}>
+        <StyledCloseButtonInner />
+      </StyledCloseButton>
     </StyledWrapper>
   );
 };

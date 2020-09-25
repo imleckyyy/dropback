@@ -55,12 +55,12 @@ const Signup = () => {
 
   const [signupSuccess, setSignupSuccess] = useState();
   const [signupError, setSignupError] = useState();
-  const [loginLoading, setLoginLoading] = useState(false);
+  const [signupLoading, setSignupLoading] = useState(false);
   const [redirectOnLogin, setRedirectOnLogin] = useState(isAuthenticated);
 
   const submitCredentials = async (credentials) => {
     try {
-      setLoginLoading(true);
+      setSignupLoading(true);
       const { data } = await apiAxios.post('auth/signup', credentials);
 
       setAuthState(data);
@@ -70,7 +70,7 @@ const Signup = () => {
         setRedirectOnLogin(true);
       }, 700);
     } catch (error) {
-      setLoginLoading(false);
+      setSignupLoading(false);
       const { data } = error.response;
       setSignupError(data.message);
       setSignupSuccess('');
@@ -142,7 +142,7 @@ const Signup = () => {
                   <Anchor as={Link} to="/signin">
                     I already have account
                   </Anchor>
-                  <Button type="submit" isLoading={loginLoading} disabled={loginLoading}>
+                  <Button type="submit" isLoading={signupLoading} disabled={signupLoading}>
                     Register
                   </Button>
                 </StyledButtonsWrapper>

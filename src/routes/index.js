@@ -3,5 +3,6 @@ export const routes = {
   signin: '/signin',
   signup: '/signup',
   tactics: '/tactics',
+  tactic: '/tactic/:id',
   creator: '/creator',
 };

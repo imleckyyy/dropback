@@ -4,10 +4,12 @@ import { NavLink } from 'react-router-dom';
 import ButtonIcon from 'components/common/ButtonIcon';
 import { routes } from 'routes';
 
-import HomeIcon from 'assets/icons/home.svg';
-import FilterIcon from 'assets/icons/filter.svg';
 import DotsImage from 'assets/dots.png';
 import AsideDecorationImage from 'assets/aside_deco.png';
+
+import { ReactComponent as HomeIcon } from 'assets/icons/home.svg';
+import { ReactComponent as FilterIcon } from 'assets/icons/strategy.svg';
+import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
 
 const StyledWrapper = styled.aside`
   position: fixed;
@@ -59,14 +61,12 @@ const StyledList = styled.ul`
 `;
 
 const StyledListItem = styled.li`
+  position: relative;
   list-style-type: none;
   margin-bottom: 30px;
 `;
 
 const StyledButtonIcon = styled(ButtonIcon)`
-  filter: invert(1);
-  background-size: 50%;
-
   &.active {
     opacity: 1;
   }
@@ -75,17 +75,17 @@ const StyledButtonIcon = styled(ButtonIcon)`
 const navItems = [
   {
     to: routes.home,
-    icon: HomeIcon,
+    icon: <HomeIcon />,
     title: 'Home page',
   },
   {
     to: routes.tactics,
-    icon: FilterIcon,
+    icon: <FilterIcon />,
     title: 'Tactics list',
   },
   {
     to: routes.creator,
-    icon: FilterIcon,
+    icon: <PlusIcon />,
     title: 'New tactic',
   },
 ];
@@ -96,14 +96,9 @@ const Sidebar = () => (
       <StyledList>
         {navItems.map(({ to, icon, title }) => (
           <StyledListItem key={to}>
-            <StyledButtonIcon
-              as={NavLink}
-              exact
-              to={to}
-              activeclass="active"
-              icon={icon}
-              title={title}
-            />
+            <StyledButtonIcon as={NavLink} exact to={to} activeclass="active" title={title}>
+              {icon}
+            </StyledButtonIcon>
           </StyledListItem>
         ))}
       </StyledList>

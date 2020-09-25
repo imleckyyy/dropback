@@ -10,6 +10,7 @@ import positionsByFormation from 'constants/positionsByFormation';
 
 const StyledWrapper = styled.div`
   position: relative;
+  max-width: 45%;
 `;
 
 const StyledImage = styled.img`

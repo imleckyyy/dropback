@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { CreatorContext } from 'context/CreatorContext';
+import { TacticContext } from 'context/TacticContext';
 import Heading from 'components/common/Heading';
 import Select from 'components/common/Select';
 import Pitch from 'components/Pitch';
@@ -9,7 +9,6 @@ import formationTypes from 'constants/formationTypes';
 
 const StyledWrapper = styled.div`
   display: flex;
-  align-items: center;
 `;
 
 const StyledBox = styled.div`
@@ -23,8 +22,8 @@ const formationSelectOptions = formationTypes.map(({ id, name }) => ({
 }));
 
 const FormationStep = () => {
-  const creatorContext = useContext(CreatorContext);
-  const { formationId, changeFormation } = creatorContext;
+  const tacticContext = useContext(TacticContext);
+  const { formationId, changeFormation } = tacticContext;
 
   return (
     <StyledWrapper>

@@ -44,12 +44,22 @@ const AuthProvider = ({ children }) => {
     return new Date().getTime() / 1000 < authState.expiresAt;
   };
 
+  const isAdmin = () => {
+    return authState.userInfo.role === 'admin';
+  };
+
+  const isOwner = (id) => {
+    return authState.userInfo._id === id;
+  };
+
   return (
     <Provider
       value={{
         authState,
         setAuthState: (authInfo) => setAuthInfo(authInfo),
         isAuthenticated,
+        isAdmin,
+        isOwner,
         logout,
       }}
     >

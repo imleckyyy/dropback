@@ -1,6 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { AuthProvider } from 'context/AuthContext';
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { AuthProvider, AuthContext } from 'context/AuthContext';
 import { FetchProvider } from 'context/FetchContext';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from 'theme/GlobalStyles';
@@ -9,11 +10,48 @@ import { routes } from 'routes';
 
 import Main from 'pages/Main';
 import Tactics from 'pages/Tactics';
+import Tactic from 'pages/Tactic';
 import Creator from 'pages/Creator';
 import Signin from 'pages/Signin';
 import Signup from 'pages/Signup';
 
 import AppShell from './AppShell';
+
+const AppShellRoute = ({ children, ...rest }) => {
+  return <Route {...rest} render={() => <AppShell>{children}</AppShell>} />;
+};
+
+const AuthenticatedRoute = ({ children, ...rest }) => {
+  const authContext = useContext(AuthContext);
+  return (
+    <Route
+      {...rest}
+      render={() =>
+        authContext.isAuthenticated() ? (
+          <AppShell>{children}</AppShell>
+        ) : (
+          <Redirect to={routes.signin} />
+        )
+      }
+    />
+  );
+};
+
+// const AdminRoute = ({ children, ...rest }) => {
+//   const authContext = useContext(AuthContext);
+//   return (
+//     <Route
+//       {...rest}
+//       render={() =>
+//         authContext.isAuthenticated() && authContext.isAdmin() ? (
+//           <AppShell>{children}</AppShell>
+//         ) : (
+//           <Redirect to="/" />
+//         )
+//       }
+//     />
+//   );
+// };
 
 const AppRoutes = () => (
   <Switch>
@@ -23,21 +61,18 @@ const AppRoutes = () => (
     <Route exact path={routes.signup}>
       <Signup />
     </Route>
-    <Route exact path={routes.home}>
-      <AppShell>
-        <Main />
-      </AppShell>
-    </Route>
-    <Route path={routes.tactics}>
-      <AppShell>
-        <Tactics />
-      </AppShell>
-    </Route>
-    <Route path={routes.creator}>
-      <AppShell>
-        <Creator />
-      </AppShell>
-    </Route>
+    <AppShellRoute exact path={routes.home}>
+      <Main />
+    </AppShellRoute>
+    <AppShellRoute path={routes.tactics}>
+      <Tactics />
+    </AppShellRoute>
+    <AppShellRoute path={routes.tactic}>
+      <Tactic />
+    </AppShellRoute>
+    <AuthenticatedRoute path={routes.creator}>
+      <Creator />
+    </AuthenticatedRoute>
   </Switch>
 );
 
@@ -55,5 +90,13 @@ function App() {
     </Router>
   );
 }
+
+AppShellRoute.propTypes = {
+  children: PropTypes.element.isRequired,
+};
+
+AuthenticatedRoute.propTypes = {
+  children: PropTypes.element.isRequired,
+};
 
 export default App;

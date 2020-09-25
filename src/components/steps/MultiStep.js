@@ -94,7 +94,7 @@ const StyledBreadcrumbsButton = styled(Button)`
       }
 
       &:before {
-        border-left: 20px solid #8f3af8;
+        border-left: 20px solid rgba(187, 34, 250, 1);
       }
     `}
 `;
@@ -135,7 +135,7 @@ const Controls = () => {
       ) : null}
 
       {currentPage !== totalPageNumber ? <Button onClick={nextPage}>Next</Button> : null}
-      {currentPage === totalPageNumber ? <Button>Finish</Button> : null}
+      {/* {currentPage === totalPageNumber ? <Button>Finish</Button> : null} */}
     </StyledControlsWrapper>
   );
 };

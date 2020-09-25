@@ -8,7 +8,7 @@ import Logo from 'components/common/Logo';
 import Anchor from 'components/common/Anchor';
 import Button from 'components/common/Button';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.header`
   position: fixed;
   top: 0;
   left: 0;
@@ -18,6 +18,21 @@ const StyledWrapper = styled.div`
   align-items: center;
   width: 100%;
   padding: 20px 80px 20px 20px;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    background: #ffffff;
+    opacity: 0.75;
+  }
+`;
+
+const StyledUserWrapper = styled.div`
+  z-index: 1;
 `;
 
 const Header = ({ setSidebarVisibility }) => {
@@ -27,7 +42,7 @@ const Header = ({ setSidebarVisibility }) => {
   return (
     <StyledWrapper>
       <Logo />
-      <div>
+      <StyledUserWrapper>
         {isAuthenticated && authState.userInfo.login ? (
           <Button type="button" text onClick={() => setSidebarVisibility(true)}>
             {authState.userInfo.login}
@@ -37,7 +52,7 @@ const Header = ({ setSidebarVisibility }) => {
             Sign in
           </Anchor>
         )}
-      </div>
+      </StyledUserWrapper>
     </StyledWrapper>
   );
 };

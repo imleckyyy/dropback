@@ -4,6 +4,12 @@ import styled, { css } from 'styled-components';
 
 const StyledWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const StyledRangeWrapper = styled.div`
+  display: flex;
   align-items: center;
   flex: 1;
 `;
@@ -58,12 +64,18 @@ const StyledRangeItem = styled.button`
       }
 
       &:before {
-        border-left: 10px solid #8f3af8;
+        border-left: 10px solid rgba(187, 34, 250, 1);
       }
     `}
 `;
 
-const RangeStepper = ({ value, maxValue, onChange }) => {
+const StyledTextRange = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.s};
+  min-width: 75px;
+  text-align: right;
+`;
+
+const RangeStepper = ({ value, maxValue, onChange, readOnly }) => {
   const [rangeValue, setRangeValue] = useState(value);
 
   useEffect(() => {
@@ -71,8 +83,10 @@ const RangeStepper = ({ value, maxValue, onChange }) => {
   }, [value]);
 
   const handleChange = (val) => {
-    setRangeValue(val);
-    onChange(val);
+    if (!readOnly) {
+      setRangeValue(val);
+      onChange(val);
+    }
   };
 
   const items = [];
@@ -89,13 +103,25 @@ const RangeStepper = ({ value, maxValue, onChange }) => {
     );
   }
 
-  return <StyledWrapper>{items}</StyledWrapper>;
+  return (
+    <StyledWrapper>
+      <StyledRangeWrapper>{items}</StyledRangeWrapper>
+      <StyledTextRange>
+        {rangeValue}/{maxValue}
+      </StyledTextRange>
+    </StyledWrapper>
+  );
 };
 
 RangeStepper.propTypes = {
   value: PropTypes.number.isRequired,
   maxValue: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
+  readOnly: PropTypes.bool,
+};
+
+RangeStepper.defaultProps = {
+  readOnly: false,
 };
 
 export default RangeStepper;

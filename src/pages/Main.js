@@ -15,6 +15,7 @@ const StyledColorfulHeading = styled(Heading)`
   text-align: center;
   background: ${({ theme }) => theme.gradient};
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 50px;
 `;
@@ -79,7 +80,7 @@ const Main = () => (
 
     <StyledFiltersWrapper>
       {formationTypes.map(({ id, name }) => (
-        <StyledFormationLink as={Link} to={`/query?formationId=${id}`} key={id} primary="true">
+        <StyledFormationLink as={Link} to={`/tactics?formationId=${id}`} key={id} primary="true">
           {name}
         </StyledFormationLink>
       ))}

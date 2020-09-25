@@ -1,14 +1,15 @@
 import React from 'react';
-import { CreatorProvider } from 'context/CreatorContext';
+import { TacticProvider } from 'context/TacticContext';
 
-import * as MultiStep from 'components/MultiStep';
+import * as MultiStep from 'components/steps/MultiStep';
 
-import FormationStep from 'components/FormationStep';
-import TacticStep from 'components/TacticStep';
-import InstructionsStep from 'components/InstuctionsStep';
+import FormationStep from 'components/steps/FormationStep';
+import TacticStep from 'components/steps/TacticStep';
+import InstructionsStep from 'components/steps/InstuctionsStep';
+import FinishStep from 'components/steps/FinishStep';
 
 const Creator = () => (
-  <CreatorProvider>
+  <TacticProvider>
     <MultiStep.Wizard>
       <MultiStep.Breadcrumb />
       <MultiStep.Page pageIndex={1} pageTitle="Formation">
@@ -21,11 +22,11 @@ const Creator = () => (
         <InstructionsStep />
       </MultiStep.Page>
       <MultiStep.Page pageIndex={4} pageTitle="Finish">
-        Page 4
+        <FinishStep />
       </MultiStep.Page>
       <MultiStep.Controls />
     </MultiStep.Wizard>
-  </CreatorProvider>
+  </TacticProvider>
 );
 
 export default Creator;
