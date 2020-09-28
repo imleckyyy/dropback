@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
+
+import { AuthContext } from 'context/AuthContext';
+import { FetchContext } from 'context/FetchContext';
 import { TacticProvider } from 'context/TacticContext';
 
+import Loader from 'components/common/Loader';
+import Notyfication from 'components/common/Notyfication';
 import * as MultiStep from 'components/steps/MultiStep';
 
 import FormationStep from 'components/steps/FormationStep';
@@ -8,25 +14,96 @@ import TacticStep from 'components/steps/TacticStep';
 import InstructionsStep from 'components/steps/InstuctionsStep';
 import FinishStep from 'components/steps/FinishStep';
 
-const Creator = () => (
-  <TacticProvider>
-    <MultiStep.Wizard>
-      <MultiStep.Breadcrumb />
-      <MultiStep.Page pageIndex={1} pageTitle="Formation">
-        <FormationStep />
-      </MultiStep.Page>
-      <MultiStep.Page pageIndex={2} pageTitle="Tactic">
-        <TacticStep />
-      </MultiStep.Page>
-      <MultiStep.Page pageIndex={3} pageTitle="Instructions">
-        <InstructionsStep />
-      </MultiStep.Page>
-      <MultiStep.Page pageIndex={4} pageTitle="Finish">
-        <FinishStep />
-      </MultiStep.Page>
-      <MultiStep.Controls />
-    </MultiStep.Wizard>
-  </TacticProvider>
-);
+const Creator = () => {
+  const { pathname } = useLocation();
+  const { id } = useParams();
+
+  const { apiAxios } = useContext(FetchContext);
+  const authContext = useContext(AuthContext);
+  const { isAdmin, isOwner } = authContext;
+
+  const [tactic, setTactic] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
+
+  useEffect(() => {
+    if (pathname.indexOf('/edit') !== -1) {
+      setIsLoading(true);
+      const fetchTactic = async () => {
+        try {
+          const { data } = await apiAxios.get(`tactics/${id}`);
+          const [item] = data.tactic;
+
+          const tacticData = {
+            mode: 'edit',
+            formationId: item.formationId,
+            tactic: {
+              defenseStyle: item.defenseStyle,
+              defenseWidth: item.defenseWidth,
+              defenseDepth: item.defenseDepth,
+              offenseStyle: item.offenseStyle,
+              offenseWidth: item.offenseWidth,
+              offensePlayersInBox: item.offensePlayersInBox,
+              corners: item.corners,
+              freeKicks: item.freeKicks,
+            },
+            positions: JSON.parse(item.positions),
+            meta: {
+              tags: item.tags,
+              description: item.description,
+              redditUrl: item.redditUrl,
+              squadUrl: item.squadUrl,
+              guideUrl: item.guideUrl,
+              userName: item.userinfo.login,
+              userId: item.userinfo._id,
+              id: item._id,
+            },
+          };
+
+          if (isAdmin() || isOwner(item.userinfo._id)) {
+            setTactic(tacticData);
+          } else {
+            setFetchError(`You're not be able to edit this tactic. Create new tactic instead`);
+          }
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 700);
+        } catch (error) {
+          const { data } = error.response;
+          setFetchError(data.message);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 700);
+        }
+      };
+      fetchTactic();
+    }
+  }, [apiAxios, id]);
+
+  return (
+    <>
+      {isLoading && <Loader />}
+      <TacticProvider initialTacticData={tactic || null}>
+        <MultiStep.Wizard>
+          {fetchError && <Notyfication error>{fetchError}</Notyfication>}
+          <MultiStep.Breadcrumb />
+          <MultiStep.Page pageIndex={1} pageTitle="Formation">
+            <FormationStep />
+          </MultiStep.Page>
+          <MultiStep.Page pageIndex={2} pageTitle="Tactic">
+            <TacticStep />
+          </MultiStep.Page>
+          <MultiStep.Page pageIndex={3} pageTitle="Instructions">
+            <InstructionsStep />
+          </MultiStep.Page>
+          <MultiStep.Page pageIndex={4} pageTitle="Finish">
+            <FinishStep />
+          </MultiStep.Page>
+          <MultiStep.Controls />
+        </MultiStep.Wizard>
+      </TacticProvider>
+    </>
+  );
+};
 
 export default Creator;

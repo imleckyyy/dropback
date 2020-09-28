@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useOutsideClick from 'hooks/useOutsideClick';
@@ -6,8 +6,10 @@ import useOutsideClick from 'hooks/useOutsideClick';
 import Heading from 'components/common/Heading';
 import Paragraph from 'components/common/Paragraph';
 import Button from 'components/common/Button';
+import Notyfication from 'components/common/Notyfication';
 
 import { AuthContext } from 'context/AuthContext';
+import { FetchContext } from 'context/FetchContext';
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -110,8 +112,12 @@ const StyledCloseButtonInner = styled.span`
 `;
 
 const UserSidebar = ({ isVisible, setSidebarVisibility }) => {
+  const { apiAxios } = useContext(FetchContext);
   const authContext = useContext(AuthContext);
   const { authState, logout } = authContext;
+
+  const [logoutLoading, setLogoutLoading] = useState(false);
+  const [logoutError, setLogoutError] = useState(null);
 
   const ref = useRef();
 
@@ -121,9 +127,19 @@ const UserSidebar = ({ isVisible, setSidebarVisibility }) => {
     }
   });
 
-  const logoutFn = () => {
-    logout();
-    setSidebarVisibility(false);
+  const logoutFn = async () => {
+    try {
+      await apiAxios.post('auth/logout');
+      setLogoutLoading(true);
+      setTimeout(() => {
+        logout();
+        setSidebarVisibility(false);
+      }, 700);
+    } catch (error) {
+      setLogoutLoading(false);
+      const { data } = error.response;
+      setLogoutError(data.message);
+    }
   };
 
   const closeSidebar = () => setSidebarVisibility(false);
@@ -134,8 +150,8 @@ const UserSidebar = ({ isVisible, setSidebarVisibility }) => {
         <Paragraph>Welcome</Paragraph>
         <Heading>{authState.userInfo.login}</Heading>
       </StyledHeader>
-
-      <Button type="button" onClick={logoutFn}>
+      {logoutError && <Notyfication error>{logoutError}</Notyfication>}
+      <Button type="button" onClick={logoutFn} isLoading={logoutLoading} disabled={logoutLoading}>
         Logout
       </Button>
       <StyledCloseButton type="button" onClick={closeSidebar} isVisible={isVisible}>

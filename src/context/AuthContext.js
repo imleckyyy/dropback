@@ -7,12 +7,14 @@ const { Provider } = AuthContext;
 
 const AuthProvider = ({ children }) => {
   const history = useHistory();
-  const localUserInfo = localStorage.getItem('userInfo');
+
   const localExpiresAt = localStorage.getItem('expiresAt');
+  const localUserInfo = localStorage.getItem('userInfo');
+  const currentTime = new Date().getTime() / 1000;
 
   const [authState, setAuthState] = useState({
     expiresAt: localExpiresAt,
-    userInfo: localUserInfo ? JSON.parse(localUserInfo) : {},
+    userInfo: localUserInfo && currentTime < localExpiresAt ? JSON.parse(localUserInfo) : {},
   });
 
   const setAuthInfo = ({ userInfo, expiresAt }) => {

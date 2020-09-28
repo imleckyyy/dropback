@@ -70,7 +70,10 @@ const AppRoutes = () => (
     <AppShellRoute path={routes.tactic}>
       <Tactic />
     </AppShellRoute>
-    <AuthenticatedRoute path={routes.creator}>
+    <AuthenticatedRoute exact path={routes.creator}>
+      <Creator />
+    </AuthenticatedRoute>
+    <AuthenticatedRoute exact path={routes.edit}>
       <Creator />
     </AuthenticatedRoute>
   </Switch>

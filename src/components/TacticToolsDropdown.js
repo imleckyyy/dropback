@@ -84,7 +84,7 @@ const TacticDropdown = ({ tacticId }) => {
       {isOpen && (
         <StyledDropdownList>
           <StyledDropdownItem>
-            <StyledAnchor as={Link} to={`/edit/${tacticId}`} type="button">
+            <StyledAnchor as={Link} to={`/creator/${tacticId}/edit`}>
               Edit
             </StyledAnchor>
           </StyledDropdownItem>
