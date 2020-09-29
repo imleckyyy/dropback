@@ -202,7 +202,7 @@ const Wizard = ({ children }) => {
 };
 
 Wizard.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
+  children: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
 
 export { Page, Controls, Breadcrumb, Wizard };

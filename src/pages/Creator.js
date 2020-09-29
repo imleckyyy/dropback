@@ -14,6 +14,8 @@ import TacticStep from 'components/steps/TacticStep';
 import InstructionsStep from 'components/steps/InstuctionsStep';
 import FinishStep from 'components/steps/FinishStep';
 
+import tacticsViewModes from 'constants/tacticsViewModes';
+
 const Creator = () => {
   const { pathname } = useLocation();
   const { id } = useParams();
@@ -23,19 +25,23 @@ const Creator = () => {
   const { isAdmin, isOwner } = authContext;
 
   const [tactic, setTactic] = useState(null);
+  const [mode, setMode] = useState(tacticsViewModes.create);
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
-    if (pathname.indexOf('/edit') !== -1) {
+    const isEditMode = pathname.indexOf('/edit') !== -1;
+    const isCloneMode = pathname.indexOf('/clone') !== -1;
+
+    if (isEditMode || isCloneMode) {
       setIsLoading(true);
+
       const fetchTactic = async () => {
         try {
           const { data } = await apiAxios.get(`tactics/${id}`);
           const [item] = data.tactic;
 
           const tacticData = {
-            mode: 'edit',
             formationId: item.formationId,
             tactic: {
               defenseStyle: item.defenseStyle,
@@ -60,11 +66,22 @@ const Creator = () => {
             },
           };
 
-          if (isAdmin() || isOwner(item.userinfo._id)) {
-            setTactic(tacticData);
+          setFetchError(null);
+          setTactic(tacticData);
+
+          if (isEditMode) {
+            if (isAdmin() || isOwner(item.userinfo._id)) {
+              setMode(tacticsViewModes.edit);
+            } else {
+              setFetchError(
+                `You're not be able to edit this tactic. Instead of edit you can clone this tactic.`,
+              );
+              setMode(tacticsViewModes.clone);
+            }
           } else {
-            setFetchError(`You're not be able to edit this tactic. Create new tactic instead`);
+            setMode(tacticsViewModes.clone);
           }
+
           setTimeout(() => {
             setIsLoading(false);
           }, 700);
@@ -77,13 +94,16 @@ const Creator = () => {
         }
       };
       fetchTactic();
+    } else {
+      setTactic(null);
+      setMode(tacticsViewModes.create);
     }
-  }, [apiAxios, id]);
+  }, [apiAxios, id, pathname]);
 
   return (
     <>
       {isLoading && <Loader />}
-      <TacticProvider initialTacticData={tactic || null}>
+      <TacticProvider initialTacticData={tactic || null} mode={mode}>
         <MultiStep.Wizard>
           {fetchError && <Notyfication error>{fetchError}</Notyfication>}
           <MultiStep.Breadcrumb />

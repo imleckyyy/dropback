@@ -16,6 +16,8 @@ import InformationsStep from 'components/steps/InformationsStep';
 import TacticStep from 'components/steps/TacticStep';
 import InstructionsStep from 'components/steps/InstuctionsStep';
 
+import tacticsViewModes from 'constants/tacticsViewModes';
+
 const StyledToolsWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -40,7 +42,6 @@ const Tactic = () => {
         const [item] = data.tactic;
 
         const tacticData = {
-          mode: 'view',
           formationId: item.formationId,
           tactic: {
             defenseStyle: item.defenseStyle,
@@ -83,7 +84,7 @@ const Tactic = () => {
       <Heading>Tactic details</Heading>
       {fetchError && <Notyfication error>{fetchError}</Notyfication>}
       {tactic.formationId ? (
-        <TacticProvider initialTacticData={tactic}>
+        <TacticProvider initialTacticData={tactic} mode={tacticsViewModes.view}>
           <MultiStep.Wizard>
             <StyledToolsWrapper>
               <MultiStep.Breadcrumb />

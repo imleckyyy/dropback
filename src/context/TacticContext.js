@@ -9,7 +9,6 @@ const { Provider } = TacticContext;
 
 const initialFormationId = 23;
 const initialState = {
-  mode: tacticsViewModes.create,
   formationId: initialFormationId,
   tactic: {
     defenseStyle: 2,
@@ -93,18 +92,23 @@ const tacticReducer = (state, action) => {
   }
 };
 
-const TacticProvider = ({ children, initialTacticData }) => {
-  const [{ mode, formationId, tactic, positions, meta }, dispatch] = useReducer(
+const TacticProvider = ({ children, initialTacticData, mode }) => {
+  const [{ formationId, tactic, positions, meta }, dispatch] = useReducer(
     tacticReducer,
     initialState,
   );
 
   useEffect(() => {
-    if (initialTacticData)
+    if (initialTacticData) {
       dispatch({
         type: tacticActions.SET_TACTIC,
         payload: initialTacticData,
       });
+    } else {
+      dispatch({
+        type: tacticActions.SET_DEFAULT,
+      });
+    }
   }, [initialTacticData]);
 
   const changeFormation = (newFormationId) => {
@@ -162,6 +166,7 @@ const TacticProvider = ({ children, initialTacticData }) => {
         changeMetaData,
       }}
     >
+      {mode}
       {children}
     </Provider>
   );
@@ -170,8 +175,6 @@ const TacticProvider = ({ children, initialTacticData }) => {
 TacticProvider.propTypes = {
   children: PropTypes.element.isRequired,
   initialTacticData: PropTypes.shape({
-    mode: PropTypes.oneOf([tacticsViewModes.view, tacticsViewModes.create, tacticsViewModes.edit])
-      .isRequired,
     tactic: PropTypes.shape({
       defenseStyle: PropTypes.number.isRequired,
       defenseWidth: PropTypes.number.isRequired,
@@ -193,6 +196,16 @@ TacticProvider.propTypes = {
       userId: PropTypes.string,
     }).isRequired,
   }),
+  mode: PropTypes.oneOf([
+    tacticsViewModes.view,
+    tacticsViewModes.create,
+    tacticsViewModes.edit,
+    tacticsViewModes.clone,
+  ]),
+};
+
+TacticProvider.defaultProps = {
+  mode: tacticsViewModes.view,
 };
 
 export { TacticContext, TacticProvider };

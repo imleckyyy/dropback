@@ -10,6 +10,8 @@ import Notyfication from 'components/common/Notyfication';
 import { TacticContext } from 'context/TacticContext';
 import { FetchContext } from 'context/FetchContext';
 
+import tacticsViewModes from 'constants/tacticsViewModes';
+
 import { getFormationName } from 'utils';
 
 const StyledWrapper = styled.div`
@@ -24,7 +26,7 @@ const StyledInput = styled(Input)`
 
 const FinishStep = () => {
   const { apiAxios } = useContext(FetchContext);
-  const { formationId, tactic, positions, meta, changeMetaData } = useContext(TacticContext);
+  const { mode, formationId, tactic, positions, meta, changeMetaData } = useContext(TacticContext);
   const { tags, description, redditUrl, squadUrl, guideUrl } = meta;
 
   const [submitSuccess, setSubmitSuccess] = useState();
@@ -63,6 +65,18 @@ const FinishStep = () => {
       setSubmitError(data.message);
       setSubmitSuccess('');
       setIsLoading(false);
+    }
+  };
+
+  const submitButtonText = () => {
+    console.log(mode);
+    switch (mode) {
+      case 'edit':
+        return 'Edit tactic';
+      case 'clone':
+        return 'Clone tactic';
+      default:
+        return 'Publish tactic';
     }
   };
 
@@ -141,7 +155,7 @@ const FinishStep = () => {
               errors={errors.guideUrl && touched.guideUrl && errors.guideUrl}
             />
             <Button type="submit" isLoading={isLoading} disabled={isLoading}>
-              Publish tactic
+              {submitButtonText()}
             </Button>
           </form>
         )}

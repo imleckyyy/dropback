@@ -8,6 +8,7 @@ import { TacticContext } from 'context/TacticContext';
 
 import defensiveStyles from 'constants/defensiveStyles';
 import offensiveStyles from 'constants/offensiveStyles';
+import tacticsViewModes from 'constants/tacticsViewModes';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ const TacticStep = () => {
 
   const localTactic = tactic;
 
-  const isReadOnly = mode === 'view';
+  const isReadOnly = mode === tacticsViewModes.view;
 
   const {
     defenseStyle,
