@@ -5,13 +5,8 @@ import { Link } from 'react-router-dom';
 import Anchor from 'components/common/Anchor';
 import Paragraph from 'components/common/Paragraph';
 import TagsList from 'components/TagsList';
-import {
-  getFormationName,
-  getDefensiveStyleName,
-  getOffensiveStyleName,
-  formatDmy,
-  diffDays,
-} from 'utils';
+import { getFormationName, getDefensiveStyleName, getOffensiveStyleName } from 'utils/tactic';
+import { formatDmy, diffDays } from 'utils';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -20,6 +15,7 @@ const StyledWrapper = styled.div`
   width: 100%;
   padding-right: 5px;
   padding-left: 5px;
+  margin-bottom: 10px;
 `;
 
 const StyledSubWrapper = styled.div`
@@ -30,7 +26,7 @@ const StyledSubWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background: ${({ theme }) => theme.lightGray};
+  background: var(--color-background-lighter);
   overflow: hidden;
 `;
 
@@ -40,12 +36,12 @@ const StyledTagsWrapper = styled.div`
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-size: var(--font-size-xs);
 `;
 
 const StyledFormationName = styled(Anchor)`
-  font-size: ${({ theme }) => theme.fontSize.l};
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
+  font-size: var(--font-size-l);
+  font-weight: var(--font-weight-regular);
   margin-bottom: 15px;
 `;
 
@@ -58,12 +54,11 @@ const StyledNewLabel = styled.span`
   position: absolute;
   right: -50px;
   top: -30px;
-  background: ${({ theme }) => theme.gradient};
+  background: var(--color-gradient);
   padding: 50px 40px 5px;
   transform: rotate(45deg);
-  font-size: ${({ theme }) => theme.fontSize.xxs};
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
-  color: ${({ theme }) => theme.fontColor.light};
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-semibold);
 `;
 
 const TacticItem = ({ item }) => {

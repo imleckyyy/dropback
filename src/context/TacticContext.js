@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { getDefaultPlayersInstructions } from 'utils';
+import { getDefaultPlayersInstructions } from 'utils/tactic';
 import tacticsViewModes from 'constants/tacticsViewModes';
 
 const TacticContext = createContext();

@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import { useHistory } from 'react-router-dom';
+
+import Input from 'components/common/Input';
 import Button from 'components/common/Button';
 
 const StyledWrapper = styled.form`
@@ -9,25 +11,20 @@ const StyledWrapper = styled.form`
   width: 100%;
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled(Input)`
   flex: 1;
   min-height: 70px;
-  border: 1px solid ${({ theme }) => theme.darkGray};
-  background: ${({ theme }) => theme.darkGray};
-  color: ${({ theme }) => theme.fontColor.light};
   padding: 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: ${({ theme }) => theme.fontSize.s};
-  outline: none;
-  resize: none;
+  background: var(--color-background-lighter);
+  font-size: var(--font-size-s);
 
   &::placeholder {
-    color: ${({ theme }) => theme.lightGray};
+    color: var(--color-text);
   }
 `;
 
 const StyledSearchButton = styled(Button)`
-  font-size: ${({ theme }) => theme.fontSize.s};
+  font-size: var(--font-size-s);
 `;
 
 const SearchBar = () => {
@@ -43,7 +40,7 @@ const SearchBar = () => {
         <StyledWrapper autoComplete="off" onSubmit={handleSubmit}>
           <StyledInput
             type="text"
-            placeholder="Search for tactics (eg. 433, airjapes, etc.)"
+            placeholder="Search by tags (eg. 433, airjapes, etc.)"
             name="text"
             onChange={handleChange}
             onBlur={handleBlur}

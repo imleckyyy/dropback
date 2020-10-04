@@ -1,14 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
+import { formatTacticData } from 'utils/tactic';
+
 import { AuthContext } from 'context/AuthContext';
 import { FetchContext } from 'context/FetchContext';
 import { TacticProvider } from 'context/TacticContext';
 
-import Loader from 'components/common/Loader';
+import Loader from 'components/Loader';
 import Notyfication from 'components/common/Notyfication';
-import * as MultiStep from 'components/steps/MultiStep';
 
+import * as MultiStep from 'components/steps/MultiStep';
 import FormationStep from 'components/steps/FormationStep';
 import TacticStep from 'components/steps/TacticStep';
 import InstructionsStep from 'components/steps/InstuctionsStep';
@@ -26,6 +28,7 @@ const Creator = () => {
 
   const [tactic, setTactic] = useState(null);
   const [mode, setMode] = useState(tacticsViewModes.create);
+
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState(null);
 
@@ -41,30 +44,7 @@ const Creator = () => {
           const { data } = await apiAxios.get(`tactics/${id}`);
           const [item] = data.tactic;
 
-          const tacticData = {
-            formationId: item.formationId,
-            tactic: {
-              defenseStyle: item.defenseStyle,
-              defenseWidth: item.defenseWidth,
-              defenseDepth: item.defenseDepth,
-              offenseStyle: item.offenseStyle,
-              offenseWidth: item.offenseWidth,
-              offensePlayersInBox: item.offensePlayersInBox,
-              corners: item.corners,
-              freeKicks: item.freeKicks,
-            },
-            positions: JSON.parse(item.positions),
-            meta: {
-              tags: item.tags,
-              description: item.description,
-              redditUrl: item.redditUrl,
-              squadUrl: item.squadUrl,
-              guideUrl: item.guideUrl,
-              userName: item.userinfo.login,
-              userId: item.userinfo._id,
-              id: item._id,
-            },
-          };
+          const tacticData = formatTacticData(item);
 
           setFetchError(null);
           setTactic(tacticData);
@@ -98,14 +78,18 @@ const Creator = () => {
       setTactic(null);
       setMode(tacticsViewModes.create);
     }
-  }, [apiAxios, id, pathname]);
+  }, [apiAxios, id, pathname, isAdmin, isOwner]);
 
   return (
     <>
       {isLoading && <Loader />}
       <TacticProvider initialTacticData={tactic || null} mode={mode}>
         <MultiStep.Wizard>
-          {fetchError && <Notyfication error>{fetchError}</Notyfication>}
+          {fetchError && (
+            <Notyfication onClose={() => setFetchError(null)} error>
+              {fetchError}
+            </Notyfication>
+          )}
           <MultiStep.Breadcrumb />
           <MultiStep.Page pageIndex={1} pageTitle="Formation">
             <FormationStep />

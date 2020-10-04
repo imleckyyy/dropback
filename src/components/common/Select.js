@@ -7,11 +7,11 @@ const StyledWrapper = styled.div`
   width: 100%;
   min-width: 15ch;
   max-width: 30ch;
-  border: 1px solid ${({ theme }) => theme.darkGray};
-  font-size: 1.25rem;
+  border: 1px solid var(--color-background-lighter);
+  font-size: var(--font-size-xs);
   cursor: pointer;
   line-height: 1.1;
-  background-color: ${({ theme }) => theme.darkGray};
+  background-color: var(--color-background-lighter);
 
   &::before {
     content: '';
@@ -22,7 +22,7 @@ const StyledWrapper = styled.div`
     top: 50%;
     right: 20px;
     transform: translateY(-50%) rotate(-35deg);
-    background: ${({ theme }) => theme.fontColor.light};
+    background: var(--color-text);
   }
 
   &::after {
@@ -34,7 +34,7 @@ const StyledWrapper = styled.div`
     top: 50%;
     right: 26px;
     transform: translateY(-50%) rotate(35deg);
-    background: ${({ theme }) => theme.fontColor.light};
+    background: var(--color-text);
   }
 
   ${({ isDisabled }) =>
@@ -51,8 +51,8 @@ const StyledWrapper = styled.div`
 
 const StyledSelect = styled.select`
   appearance: none;
-  background-color: ${({ theme }) => theme.darkGray};
-  border: none;
+  border: 1px solid var(--color-background-lighter);
+  background-color: var(--color-background-lighter);
   padding: 20px;
   margin: 0;
   width: 100%;
@@ -61,20 +61,14 @@ const StyledSelect = styled.select`
   cursor: inherit;
   line-height: inherit;
   outline: none;
-  color: ${({ theme }) => theme.fontColor.light};
+  color: var(--color-text);
 
   &::-ms-expand {
     display: none;
   }
 
-  &:focus + .focus {
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    border: 2px solid red;
-    border-radius: inherit;
+  &:focus {
+    border-bottom: 1px solid var(--color-primary);
   }
 `;
 

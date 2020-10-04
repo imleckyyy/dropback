@@ -1,76 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import styled from 'styled-components';
 
-const StyledWrapper = styled.div`
-  position: relative;
-`;
-
-const StyledLabel = styled.label`
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  transform: scale(1);
-  font-size: ${({ theme }) => theme.fontSize.xs};
-  color: ${({ theme }) => theme.fontColor.light};
-  transition: transform 300ms ease, opacity 300ms ease;
-  opacity: 0.5;
-  cursor: text;
-`;
-
 const StyledInput = styled.input`
-  border: 1px solid ${({ theme }) => theme.darkGray};
-  background: ${({ theme }) => theme.darkGray};
+  border: 1px solid var(--color-background-lighter);
+  background: var(--color-background);
   padding: 25px 20px 15px;
-  color: ${({ theme }) => theme.fontColor.light};
-  font-family: 'Montserrat', sans-serif;
+  color: var(--color-text);
   outline: none;
-  resize: none;
 
   &::placeholder {
     color: transparent;
+  }
+
+  &:focus {
+    border-bottom: 1px solid var(--color-primary);
   }
 
   &:focus ~ label,
   &:not(:placeholder-shown) ~ label {
     transform: translateY(-110%) translateX(-10%) scale(0.8);
   }
-`;
 
-const InputError = styled.p`
-  position: relative;
-  font-size: ${({ theme }) => theme.fontSize.xs};
-  color: red;
-  padding: 0;
-  margin: 0 15px 10px;
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 50px var(--color-background) inset;
+    box-shadow: 0 0 0 50px var(--color-background) inset;
+    -webkit-text-fill-color: var(--color-text);
+  }
 
-  &:before {
-    content: '\\00d7';
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 5px;
-    font-size: ${({ theme }) => theme.fontSize.s};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+  &:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 50px var(--color-background) inset;
+    box-shadow: 0 0 0 50px var(--color-background) inset;
+    -webkit-text-fill-color: var(--color-text);
   }
 `;
 
-const Input = ({ label, name, errors, ...props }) => (
-  <StyledWrapper>
-    <StyledInput id={name} name={name} {...props} />
-    <StyledLabel htmlFor={name}>{label}</StyledLabel>
-    {errors && <InputError>{errors}</InputError>}
-  </StyledWrapper>
-);
-
-Input.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  errors: PropTypes.string,
-};
-
-Input.defaultProps = {
-  errors: null,
-};
-
-export default Input;
+export default StyledInput;

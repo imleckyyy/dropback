@@ -7,11 +7,11 @@ import { AuthContext } from 'context/AuthContext';
 import { FetchContext } from 'context/FetchContext';
 
 import Logo from 'components/common/Logo';
-import Input from 'components/common/Input';
 import Button from 'components/common/Button';
 import Anchor from 'components/common/Anchor';
 import Heading from 'components/common/Heading';
 import Notyfication from 'components/common/Notyfication';
+import FormField from 'components/FormField';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -29,13 +29,12 @@ const StyledWrapper = styled.div`
 const StyledForm = styled.div`
   display: block;
   width: 100%;
-  background: ${({ theme }) => theme.lightGray};
-  color: ${({ theme }) => theme.fontColor.dark};
+  background: var(--color-background-lighter);
   padding: 20px;
   margin-top: 30px;
 `;
 
-const StyledInput = styled(Input)`
+const StyledFormField = styled(FormField)`
   width: 100%;
   margin-bottom: 10px;
 `;
@@ -84,7 +83,6 @@ const Signin = () => {
         <Logo />
         <StyledForm>
           <Heading>Sign in</Heading>
-
           <Formik
             initialValues={{ email: '', password: '' }}
             validate={(values) => {
@@ -103,9 +101,17 @@ const Signin = () => {
           >
             {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
-                {loginSuccess && <Notyfication success>{loginSuccess}</Notyfication>}
-                {loginError && <Notyfication error>{loginError}</Notyfication>}
-                <StyledInput
+                {loginSuccess && (
+                  <Notyfication onClose={() => setLoginSuccess(null)} success>
+                    {loginSuccess}
+                  </Notyfication>
+                )}
+                {loginError && (
+                  <Notyfication onClose={() => setLoginError(null)} error>
+                    {loginError}
+                  </Notyfication>
+                )}
+                <StyledFormField
                   type="email"
                   name="email"
                   label="Email"
@@ -115,7 +121,7 @@ const Signin = () => {
                   value={values.email}
                   errors={errors.email && touched.email && errors.email}
                 />
-                <StyledInput
+                <StyledFormField
                   type="password"
                   name="password"
                   label="Password"

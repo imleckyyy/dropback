@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
 
 import Heading from 'components/common/Heading';
-import Input from 'components/common/Input';
+import FormField from 'components/FormField';
 import Button from 'components/common/Button';
 import Notyfication from 'components/common/Notyfication';
 
@@ -12,14 +13,14 @@ import { FetchContext } from 'context/FetchContext';
 
 import tacticsViewModes from 'constants/tacticsViewModes';
 
-import { getFormationName } from 'utils';
+import { getFormationName } from 'utils/tactic';
 
 const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const StyledInput = styled(Input)`
+const StyledFormField = styled(FormField)`
   min-width: 400px;
   margin-bottom: 10px;
 `;
@@ -29,6 +30,7 @@ const FinishStep = () => {
   const { mode, formationId, tactic, positions, meta, changeMetaData } = useContext(TacticContext);
   const { tags, description, redditUrl, squadUrl, guideUrl } = meta;
 
+  const [redirectOnSuccess, setRedirectOnSuccess] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState();
   const [submitError, setSubmitError] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -45,20 +47,31 @@ const FinishStep = () => {
     try {
       setIsLoading(true);
 
-      const formationName = getFormationName(formationId);
+      const isEditMode = mode === tacticsViewModes.edit;
+      const isCloneMode = mode === tacticsViewModes.clone;
 
-      const input = {
+      const formationName = isEditMode || isCloneMode ? '' : `${getFormationName(formationId)}, `;
+
+      const tacticInput = {
         formationId,
         ...tactic,
         positions: JSON.stringify(positions),
         ...meta,
-        tags: `${formationName}, ${tags}`,
+        tags: `${formationName}${tags}`,
       };
-      const { data } = await apiAxios.post('tactics', input);
+      let res = null;
+      if (isEditMode || isCloneMode) {
+        res = await apiAxios.patch('tactics', tacticInput);
+      } else {
+        res = await apiAxios.post('tactics', tacticInput);
+      }
+
+      const { data } = res;
       setSubmitSuccess(data.message);
       setSubmitError('');
       setTimeout(() => {
         setIsLoading(false);
+        setRedirectOnSuccess(data.tacticInfo.id);
       }, 1000);
     } catch (error) {
       const { data } = error.response;
@@ -68,99 +81,98 @@ const FinishStep = () => {
     }
   };
 
-  const submitButtonText = () => {
-    console.log(mode);
-    switch (mode) {
-      case 'edit':
-        return 'Edit tactic';
-      case 'clone':
-        return 'Clone tactic';
-      default:
-        return 'Publish tactic';
-    }
-  };
-
   return (
-    <StyledWrapper>
-      <Heading>Additional informations</Heading>
+    <>
+      {redirectOnSuccess ? <Redirect to={`/tactic/${redirectOnSuccess}`} /> : null}
+      <StyledWrapper>
+        <Heading>Additional informations</Heading>
 
-      <Formik
-        initialValues={{ description, tags, redditUrl, squadUrl, guideUrl }}
-        validate={(values) => {
-          const errors = {};
-          // if (!values.tags) {
-          //   errors.email = 'Email is required';
-          // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-          //   errors.email = 'Invalid email address';
-          // }
-          if (!values.tags) {
-            errors.tags = 'Tags are required';
-          }
-          return errors;
-        }}
-        onSubmit={localHandleSubmit}
-      >
-        {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-          <form onSubmit={handleSubmit} onChange={(e) => localHandleChange(e)}>
-            {submitSuccess && <Notyfication success>{submitSuccess}</Notyfication>}
-            {submitError && <Notyfication error>{submitError}</Notyfication>}
-            <StyledInput
-              type="text"
-              name="description"
-              label="Description"
-              placeholder="Description"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.description}
-              errors={errors.description && touched.description && errors.description}
-            />
-            <StyledInput
-              type="text"
-              name="tags"
-              label="Tags"
-              placeholder="Tags"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.tags}
-              errors={errors.tags && touched.tags && errors.tags}
-            />
-            <StyledInput
-              type="text"
-              name="redditUrl"
-              label="Reddit Link"
-              placeholder="Reddit Link"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.redditUrl}
-              errors={errors.redditUrl && touched.redditUrl && errors.redditUrl}
-            />
-            <StyledInput
-              type="text"
-              name="squadUrl"
-              label="Squad Link (futbin, futhead, futwiz)"
-              placeholder="Squad Link"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.squadUrl}
-              errors={errors.squadUrl && touched.squadUrl && errors.squadUrl}
-            />
-            <StyledInput
-              type="text"
-              name="guideUrl"
-              label="Guide Link"
-              placeholder="Guide Link"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.guideUrl}
-              errors={errors.guideUrl && touched.guideUrl && errors.guideUrl}
-            />
-            <Button type="submit" isLoading={isLoading} disabled={isLoading}>
-              {submitButtonText()}
-            </Button>
-          </form>
-        )}
-      </Formik>
-    </StyledWrapper>
+        <Formik
+          initialValues={{ description, tags, redditUrl, squadUrl, guideUrl }}
+          validate={(values) => {
+            const errors = {};
+            // if (!values.tags) {
+            //   errors.email = 'Email is required';
+            // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+            //   errors.email = 'Invalid email address';
+            // }
+            if (!values.tags) {
+              errors.tags = 'Tags are required';
+            }
+            return errors;
+          }}
+          onSubmit={localHandleSubmit}
+        >
+          {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+            <form onSubmit={handleSubmit} onChange={(e) => localHandleChange(e)}>
+              {submitSuccess && (
+                <Notyfication onClose={() => setSubmitSuccess(null)} success>
+                  {submitSuccess}
+                </Notyfication>
+              )}
+              {submitError && (
+                <Notyfication onClose={() => setSubmitError(null)} error>
+                  {submitError}
+                </Notyfication>
+              )}
+              <StyledFormField
+                type="text"
+                name="description"
+                label="Description"
+                placeholder="Description"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.description}
+                errors={errors.description && touched.description && errors.description}
+              />
+              <StyledFormField
+                type="text"
+                name="tags"
+                label="Tags"
+                placeholder="Tags"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.tags}
+                errors={errors.tags && touched.tags && errors.tags}
+              />
+              <StyledFormField
+                type="text"
+                name="redditUrl"
+                label="Reddit Link"
+                placeholder="Reddit Link"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.redditUrl}
+                errors={errors.redditUrl && touched.redditUrl && errors.redditUrl}
+              />
+              <StyledFormField
+                type="text"
+                name="squadUrl"
+                label="Squad Link (futbin, futhead, futwiz)"
+                placeholder="Squad Link"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.squadUrl}
+                errors={errors.squadUrl && touched.squadUrl && errors.squadUrl}
+              />
+              <StyledFormField
+                type="text"
+                name="guideUrl"
+                label="Guide Link"
+                placeholder="Guide Link"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.guideUrl}
+                errors={errors.guideUrl && touched.guideUrl && errors.guideUrl}
+              />
+              <Button type="submit" isLoading={isLoading} disabled={isLoading}>
+                {mode === tacticsViewModes.edit ? 'Save changes' : 'Create tactic'}
+              </Button>
+            </form>
+          )}
+        </Formik>
+      </StyledWrapper>
+    </>
   );
 };
 

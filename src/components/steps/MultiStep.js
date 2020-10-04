@@ -54,7 +54,7 @@ const StyledBreadcrumbsButton = styled(Button)`
   margin-right: 10px;
   min-width: 120px;
   text-align: left;
-  background: ${({ theme }) => theme.darkGray};
+  background: var(--color-background-lighter);
 
   &:before {
     content: '';
@@ -65,7 +65,7 @@ const StyledBreadcrumbsButton = styled(Button)`
     width: 0;
     height: 0;
     border-top: 23px solid transparent;
-    border-left: 20px solid ${({ theme }) => theme.darkGray};
+    border-left: 20px solid var(--color-background-lighter);
     border-bottom: 23px solid transparent;
     z-index: 2;
   }
@@ -79,7 +79,7 @@ const StyledBreadcrumbsButton = styled(Button)`
     width: 0;
     height: 0;
     border-top: 23px solid transparent;
-    border-left: 20px solid #ffffff;
+    border-left: 20px solid var(--color-background);
     border-bottom: 23px solid transparent;
     z-index: 1;
   }
@@ -87,14 +87,14 @@ const StyledBreadcrumbsButton = styled(Button)`
   ${({ isActive }) =>
     isActive &&
     css`
-      background: ${({ theme }) => theme.gradient};
+      background: var(--color-gradient);
 
       &:hover {
-        background: ${({ theme }) => theme.gradient};
+        background: var(--color-gradient);
       }
 
       &:before {
-        border-left: 20px solid rgba(187, 34, 250, 1);
+        border-left: 20px solid var(--color-gradient-end);
       }
     `}
 `;

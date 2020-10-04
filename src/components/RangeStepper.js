@@ -21,7 +21,7 @@ const StyledRangeItem = styled.button`
   height: 20px;
   width: ${({ maxValue }) => `${100 / maxValue}%`};
   text-align: left;
-  background: ${({ theme }) => theme.darkGray};
+  background: var(--color-background-lighter);
   border: none;
   outline: none;
   cursor: pointer;
@@ -35,7 +35,7 @@ const StyledRangeItem = styled.button`
     width: 0;
     height: 0;
     border-top: 10px solid transparent;
-    border-left: 10px solid ${({ theme }) => theme.darkGray};
+    border-left: 10px solid var(--color-background-lighter);
     border-bottom: 10px solid transparent;
     z-index: 2;
   }
@@ -49,28 +49,32 @@ const StyledRangeItem = styled.button`
     width: 0;
     height: 0;
     border-top: 10px solid transparent;
-    border-left: 10px solid #ffffff;
+    border-left: 10px solid var(--color-background);
     border-bottom: 10px solid transparent;
     z-index: 1;
+  }
+
+  &:hover {
+    background: var(--color-primary);
+
+    &:before {
+      border-left: 10px solid var(--color-primary);
+    }
   }
 
   ${({ isActive }) =>
     isActive &&
     css`
-      background: ${({ theme }) => theme.gradient};
-
-      &:hover {
-        background: ${({ theme }) => theme.gradient};
-      }
+      background: var(--color-gradient);
 
       &:before {
-        border-left: 10px solid rgba(187, 34, 250, 1);
+        border-left: 10px solid var(--color-gradient-end);
       }
     `}
 `;
 
 const StyledTextRange = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.s};
+  font-size: var(--font-size-s);
   min-width: 75px;
   text-align: right;
 `;
@@ -107,7 +111,7 @@ const RangeStepper = ({ value, maxValue, onChange, readOnly }) => {
     <StyledWrapper>
       <StyledRangeWrapper>{items}</StyledRangeWrapper>
       <StyledTextRange>
-        {rangeValue}/{maxValue}
+        {rangeValue} / {maxValue}
       </StyledTextRange>
     </StyledWrapper>
   );

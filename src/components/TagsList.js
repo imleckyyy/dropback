@@ -3,25 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledWrapper = styled.ul`
-  position: relative;
   display: flex;
   width: calc(100% - 45px);
   overflow: hidden;
   margin: 0;
   padding: 0;
-
-  &:after {
-    content: '';
-    display: block;
-    width: 20px;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    background: ${({ theme }) =>
-      `linear-gradient(90deg, rgba(255,255,255,0) 0%, ${theme.lightGray} 100%);`};
-  }
 `;
 
 const StyledTag = styled.li`
@@ -30,47 +16,42 @@ const StyledTag = styled.li`
   padding: 4px 15px 3px 20px;
   margin-right: 10px;
   text-align: left;
-  background: ${({ theme }) => theme.darkGray};
-  color: ${({ theme }) => theme.fontColor.light};
-  font-size: ${({ theme }) => theme.fontSize.xxs};
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  background: var(--color-background);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
 
-  &:before {
+  &:before,
+  &:after {
     content: '';
     position: absolute;
-    right: -10px;
     top: 0;
     display: block;
     width: 0;
     height: 0;
     border-top: 10px solid transparent;
-    border-left: 10px solid ${({ theme }) => theme.darkGray};
     border-bottom: 10px solid transparent;
+  }
+
+  &:before {
+    right: -10px;
+    border-left: 10px solid var(--color-background);
     z-index: 2;
   }
 
   &:after {
-    content: '';
-    position: absolute;
     right: -19px;
-    top: 0;
-    display: block;
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-left: 10px solid #ffffff;
-    border-bottom: 10px solid transparent;
+    border-left: 10px solid var(--color-background-lighter);
     z-index: 1;
   }
 
   &:first-of-type {
-    background: ${({ theme }) => theme.gradient};
+    background: var(--color-gradient);
 
     &:before {
-      border-left: 10px solid rgba(187, 34, 250, 1);
+      border-left: 10px solid var(--color-gradient-end);
     }
   }
 `;

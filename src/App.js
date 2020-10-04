@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { AuthProvider, AuthContext } from 'context/AuthContext';
 import { FetchProvider } from 'context/FetchContext';
-import { ThemeProvider } from 'styled-components';
 import GlobalStyles from 'theme/GlobalStyles';
-import theme from 'theme/mainTheme';
 import { routes } from 'routes';
 
 import Main from 'pages/Main';
@@ -84,10 +82,10 @@ function App() {
     <Router>
       <AuthProvider>
         <FetchProvider>
-          <ThemeProvider theme={theme}>
+          <>
             <GlobalStyles />
             <AppRoutes />
-          </ThemeProvider>
+          </>
         </FetchProvider>
       </AuthProvider>
     </Router>

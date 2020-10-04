@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import ButtonIcon from 'components/common/ButtonIcon';
 import { routes } from 'routes';
 
+import Logo from 'components/common/Logo';
+
 import DotsImage from 'assets/dots.png';
 import AsideDecorationImage from 'assets/aside_deco.png';
 
@@ -19,11 +21,9 @@ const StyledWrapper = styled.aside`
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
-  padding: 140px 10px;
-  background: ${({ theme }) => theme.darkGray};
-  color: ${({ theme }) => theme.fontColor.light};
+  padding: 20px 10px;
+  background: var(--color-background-lighter);
   z-index: 2;
 
   &:before {
@@ -51,6 +51,12 @@ const StyledWrapper = styled.aside`
     background: url(${() => AsideDecorationImage});
     background-repeat: no-repeat;
   }
+`;
+
+const StyledNav = styled.nav`
+  display: flex;
+  align-items: center;
+  flex: 1;
 `;
 
 const StyledList = styled.ul`
@@ -92,7 +98,8 @@ const navItems = [
 
 const Sidebar = () => (
   <StyledWrapper>
-    <nav>
+    <Logo />
+    <StyledNav>
       <StyledList>
         {navItems.map(({ to, icon, title }) => (
           <StyledListItem key={to}>
@@ -102,7 +109,7 @@ const Sidebar = () => (
           </StyledListItem>
         ))}
       </StyledList>
-    </nav>
+    </StyledNav>
   </StyledWrapper>
 );
 

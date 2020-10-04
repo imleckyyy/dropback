@@ -13,25 +13,25 @@ const rotateCenterKeyframes = keyframes`
 
 const Button = styled.button`
   position: relative;
-  background: ${({ theme }) => theme.gradient};
-  color: ${({ theme }) => theme.fontColor.light};
-  border: none;
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
-  text-decoration: none;
   padding: 20px 60px;
   cursor: pointer;
   outline: none;
+  border: none;
+  background: var(--color-gradient);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
 
   &:hover {
-    background: ${({ theme }) => theme.darkGray};
+    background: var(--color-background-lighter);
   }
 
   ${({ primary }) =>
     primary &&
     css`
-      background: ${({ theme }) => theme.darkGray};
+      background: var(--color-background-lighter);
       &:hover {
-        background: ${({ theme }) => theme.gradient};
+        background: var(--color-gradient);
       }
     `}
 
@@ -57,11 +57,11 @@ const Button = styled.button`
     text &&
     css`
       background: none;
-      color: ${({ theme }) => theme.fontColor.dark};
+      color: var(--color-text-reverse);
       padding: 0 15px;
 
       &:hover {
-        background: ${({ theme }) => theme.gradient};
+        background: var(--color-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }

@@ -1,17 +1,31 @@
 import React, { useRef, useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import useOutsideClick from 'hooks/useOutsideClick';
+import { Link } from 'react-router-dom';
 
-import Heading from 'components/common/Heading';
-import Paragraph from 'components/common/Paragraph';
-import Button from 'components/common/Button';
-import Notyfication from 'components/common/Notyfication';
+import useOutsideClick from 'hooks/useOutsideClick';
 
 import { AuthContext } from 'context/AuthContext';
 import { FetchContext } from 'context/FetchContext';
 
+import Heading from 'components/common/Heading';
+import Paragraph from 'components/common/Paragraph';
+import Anchor from 'components/common/Anchor';
+import Button from 'components/common/Button';
+import Notyfication from 'components/common/Notyfication';
+
 const StyledWrapper = styled.div`
+  position: fixed;
+  top: 40px;
+  right: 30px;
+`;
+
+const StyledAuthLinkWrapper = styled.div`
+  display: block;
+  padding: 15px 40px;
+  border: 1px solid var(--color-background-lighter);
+`;
+
+const StyledSidebarWrapper = styled.div`
   position: relative;
   display: block;
   width: 80%;
@@ -20,8 +34,7 @@ const StyledWrapper = styled.div`
   position: fixed;
   right: 0%;
   top: 0%;
-  background: ${({ theme }) => theme.lightGray};
-  color: ${({ theme }) => theme.fontColor.dark};
+  background: var(--color-background-lighter);
   z-index: 4;
   padding: 100px 30px;
   transform: translateX(${({ isVisible }) => (isVisible ? '0' : '110%')});
@@ -65,7 +78,7 @@ const StyledCloseButton = styled(Button)`
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: ${({ theme }) => theme.gradient};
+    background: var(--color-gradient);
     transition: transform 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
   }
 
@@ -111,11 +124,12 @@ const StyledCloseButtonInner = styled.span`
   }
 `;
 
-const UserSidebar = ({ isVisible, setSidebarVisibility }) => {
+const UserSidebar = () => {
   const { apiAxios } = useContext(FetchContext);
   const authContext = useContext(AuthContext);
-  const { authState, logout } = authContext;
+  const { authState, isAuthenticated, logout } = authContext;
 
+  const [isVisible, setIsVisible] = useState(false);
   const [logoutLoading, setLogoutLoading] = useState(false);
   const [logoutError, setLogoutError] = useState(null);
 
@@ -123,17 +137,17 @@ const UserSidebar = ({ isVisible, setSidebarVisibility }) => {
 
   useOutsideClick(ref, () => {
     if (isVisible) {
-      setSidebarVisibility(false);
+      setIsVisible(false);
     }
   });
 
-  const logoutFn = async () => {
+  const onLogout = async () => {
     try {
       await apiAxios.post('auth/logout');
       setLogoutLoading(true);
+      setIsVisible(false);
       setTimeout(() => {
         logout();
-        setSidebarVisibility(false);
       }, 700);
     } catch (error) {
       setLogoutLoading(false);
@@ -141,29 +155,51 @@ const UserSidebar = ({ isVisible, setSidebarVisibility }) => {
       setLogoutError(data.message);
     }
   };
-
-  const closeSidebar = () => setSidebarVisibility(false);
-
   return (
-    <StyledWrapper isVisible={isVisible} ref={ref}>
-      <StyledHeader>
-        <Paragraph>Welcome</Paragraph>
-        <Heading>{authState.userInfo.login}</Heading>
-      </StyledHeader>
-      {logoutError && <Notyfication error>{logoutError}</Notyfication>}
-      <Button type="button" onClick={logoutFn} isLoading={logoutLoading} disabled={logoutLoading}>
-        Logout
-      </Button>
-      <StyledCloseButton type="button" onClick={closeSidebar} isVisible={isVisible}>
-        <StyledCloseButtonInner />
-      </StyledCloseButton>
+    <StyledWrapper>
+      <StyledAuthLinkWrapper>
+        {isAuthenticated() && authState.userInfo.login ? (
+          <Button type="button" text onClick={() => setIsVisible(true)}>
+            {authState.userInfo.login}
+          </Button>
+        ) : (
+          <Anchor as={Link} to="/signin">
+            Sign in
+          </Anchor>
+        )}
+      </StyledAuthLinkWrapper>
+      <>
+        {isAuthenticated() && authState.userInfo.login ? (
+          <StyledSidebarWrapper isVisible={isVisible} ref={ref}>
+            <StyledHeader>
+              <Paragraph>Welcome</Paragraph>
+              <Heading>{authState.userInfo.login}</Heading>
+            </StyledHeader>
+            {logoutError && (
+              <Notyfication onClose={() => setLogoutError(null)} error>
+                {logoutError}
+              </Notyfication>
+            )}
+            <Button
+              type="button"
+              onClick={onLogout}
+              isLoading={logoutLoading}
+              disabled={logoutLoading}
+            >
+              Logout
+            </Button>
+            <StyledCloseButton
+              type="button"
+              onClick={() => setIsVisible(false)}
+              isVisible={isVisible}
+            >
+              <StyledCloseButtonInner />
+            </StyledCloseButton>
+          </StyledSidebarWrapper>
+        ) : null}
+      </>
     </StyledWrapper>
   );
-};
-
-UserSidebar.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
-  setSidebarVisibility: PropTypes.func.isRequired,
 };
 
 export default UserSidebar;

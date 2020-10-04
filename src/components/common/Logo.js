@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Link } from 'react-router-dom';
 
-import LogoImage from 'assets/logo.png';
+import LogoImage from 'assets/logo_hor.png';
 import LogoSplash from 'assets/logo_splash.png';
 import DotsImage from 'assets/dots.png';
 
@@ -12,21 +12,20 @@ const StyledLogoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 345px;
-  height: 100px;
-  background: ${({ theme }) => theme.gradient};
+  width: 85px;
+  height: 85px;
+  background: var(--color-gradient);
 
   &:before {
     content: '';
     position: absolute;
-    left: -10px;
-    bottom: -10px;
+    left: -8px;
+    top: 5px;
     display: block;
-    width: 102px;
-    height: 102px;
+    width: 75px;
+    height: 75px;
     background: url(${() => DotsImage});
     background-size: 95%;
-    transition: transform ease-in-out 400ms;
   }
 
   &:after {
@@ -38,24 +37,17 @@ const StyledLogoWrapper = styled.div`
     width: 92px;
     height: 90px;
     background: url(${() => LogoSplash});
-    transition: transform ease-in-out 300ms;
-  }
-
-  &:hover {
-    &:before {
-      transform: translate(-5px, -5px);
-    }
-
-    &:after {
-      transform: translate(5px, 5px);
-    }
+    z-index: -1;
   }
 `;
 
 const StyledLogoImage = styled.img`
-  position: relative;
-  top: -10px;
+  position: absolute;
+  top: 0px;
+  left: 8px;
   z-index: 1;
+  width: 143px;
+  height: 71px;
 `;
 
 const Logo = () => (

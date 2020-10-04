@@ -2,7 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import { TacticContext } from 'context/TacticContext';
+
 import Heading from 'components/common/Heading';
+import Paragraph from 'components/common/Paragraph';
 import ButtonIcon from 'components/common/ButtonIcon';
 
 import { ReactComponent as PrevIcon } from 'assets/icons/prev.svg';
@@ -28,7 +30,7 @@ const StyledWrapper = styled.div`
   justify-content: space-between;
   margin: 10px;
   padding: 10px;
-  background: ${({ theme }) => theme.lightGray};
+  background: var(--color-background-lighter);
   flex: 1 1 calc(50% - 20px);
   min-width: 200px;
 
@@ -60,8 +62,8 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledHeading = styled(Heading)`
-  font-size: ${({ theme }) => theme.fontSize.xs};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   text-align: center;
   padding: 10px;
@@ -83,8 +85,8 @@ const StyledItem = styled.li`
   display: ${({ isActive }) => (isActive ? 'block' : 'none')};
   margin: 0 10px;
   text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.xs};
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
   animation: ${fadeIn} 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 `;
 
@@ -101,7 +103,6 @@ const StyledButtonIcon = styled(ButtonIcon)`
   height: 20px;
   outline: none;
   svg {
-    fill: ${({ theme }) => theme.darkGray};
     width: 20px;
     height: 20px;
   }
@@ -113,7 +114,7 @@ const StyledPaginationWrapper = styled.div`
   align-items: center;
   justify-content: center;
   height: 20px;
-  background: ${({ theme }) => theme.darkGray};
+  background: var(--color-background);
   padding: 0 10px;
   margin: 0 10px;
 
@@ -130,12 +131,12 @@ const StyledPaginationWrapper = styled.div`
 
   &:before {
     left: -10px;
-    border-right: 10px solid ${({ theme }) => theme.darkGray};
+    border-right: 10px solid var(--color-background);
   }
 
   &:after {
     right: -10px;
-    border-left: 10px solid ${({ theme }) => theme.darkGray};
+    border-left: 10px solid var(--color-background);
   }
 `;
 
@@ -146,11 +147,16 @@ const StyledDot = styled.div`
   height: 7px;
   margin: 0 5px;
   border-radius: 50%;
-  background: ${({ isActive, theme }) => (isActive ? theme.gradient : '#ffffff')};
+  background: ${({ isActive }) => (isActive ? 'var(--color-gradient)' : '#ffffff')};
   cursor: pointer;
 `;
 
-const InstructionsItem = ({ id, name, value, onChange, settings }) => {
+const StyledDefaultParagraph = styled(Paragraph)`
+  margin-top: 5px;
+  font-size: var(--font-size-xxs);
+`;
+
+const InstructionsItem = ({ id, name, value, defaultValue, onChange, settings }) => {
   const { mode } = useContext(TacticContext);
   const [currentOption, setCurrentOption] = useState(value);
   const settingsCount = settings.length;
@@ -191,6 +197,7 @@ const InstructionsItem = ({ id, name, value, onChange, settings }) => {
       <StyledDot
         key={currentIndex}
         isActive={currentOption === currentIndex}
+        isDefault={currentIndex === defaultValue}
         onClick={() => setOption(currentIndex)}
       />,
     );
@@ -203,6 +210,7 @@ const InstructionsItem = ({ id, name, value, onChange, settings }) => {
         {settings.map((item) => (
           <StyledItem key={item.id} isActive={item.id === currentOption}>
             {item.name}
+            {item.id === defaultValue && <StyledDefaultParagraph>(Default)</StyledDefaultParagraph>}
           </StyledItem>
         ))}
       </StyledList>
@@ -226,6 +234,7 @@ InstructionsItem.propTypes = {
   name: PropTypes.string.isRequired,
   settings: PropTypes.arrayOf(PropTypes.object).isRequired,
   value: PropTypes.number.isRequired,
+  defaultValue: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

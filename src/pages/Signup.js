@@ -7,11 +7,11 @@ import { AuthContext } from 'context/AuthContext';
 import { FetchContext } from 'context/FetchContext';
 
 import Logo from 'components/common/Logo';
-import Input from 'components/common/Input';
 import Button from 'components/common/Button';
 import Anchor from 'components/common/Anchor';
 import Heading from 'components/common/Heading';
 import Notyfication from 'components/common/Notyfication';
+import FormField from 'components/FormField';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -29,13 +29,12 @@ const StyledWrapper = styled.div`
 const StyledForm = styled.div`
   display: block;
   width: 100%;
-  background: ${({ theme }) => theme.lightGray};
-  color: ${({ theme }) => theme.fontColor.dark};
   padding: 20px;
   margin-top: 30px;
+  background: var(--color-background-lighter);
 `;
 
-const StyledInput = styled(Input)`
+const StyledFormField = styled(FormField)`
   width: 100%;
   margin-bottom: 10px;
 `;
@@ -106,9 +105,17 @@ const Signup = () => {
           >
             {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
-                {signupSuccess && <Notyfication success>{signupSuccess}</Notyfication>}
-                {signupError && <Notyfication error>{signupError}</Notyfication>}
-                <StyledInput
+                {signupSuccess && (
+                  <Notyfication onClose={() => setSignupSuccess(null)} success>
+                    {signupSuccess}
+                  </Notyfication>
+                )}
+                {signupError && (
+                  <Notyfication onClose={() => setSignupError(null)} error>
+                    {signupError}
+                  </Notyfication>
+                )}
+                <StyledFormField
                   type="login"
                   name="login"
                   label="Login"
@@ -118,7 +125,7 @@ const Signup = () => {
                   value={values.login}
                   errors={errors.login && touched.login && errors.login}
                 />
-                <StyledInput
+                <StyledFormField
                   type="email"
                   name="email"
                   label="Email"
@@ -128,7 +135,7 @@ const Signup = () => {
                   value={values.email}
                   errors={errors.email && touched.email && errors.email}
                 />
-                <StyledInput
+                <StyledFormField
                   type="password"
                   name="password"
                   label="Password"

@@ -2,13 +2,15 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { formatTacticData } from 'utils/tactic';
+
 import { AuthContext } from 'context/AuthContext';
 import { FetchContext } from 'context/FetchContext';
 import { TacticProvider } from 'context/TacticContext';
 
 import Heading from 'components/common/Heading';
 import Notyfication from 'components/common/Notyfication';
-import Loader from 'components/common/Loader';
+import Loader from 'components/Loader';
 import TacticToolsDropdown from 'components/TacticToolsDropdown';
 
 import * as MultiStep from 'components/steps/MultiStep';
@@ -26,11 +28,13 @@ const StyledToolsWrapper = styled.div`
 
 const Tactic = () => {
   const { id } = useParams();
+
   const { apiAxios } = useContext(FetchContext);
   const authContext = useContext(AuthContext);
   const { isAdmin, isOwner } = authContext;
 
   const [tactic, setTactic] = useState({});
+
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
 
@@ -41,37 +45,18 @@ const Tactic = () => {
         const { data } = await apiAxios.get(`tactics/${id}`);
         const [item] = data.tactic;
 
-        const tacticData = {
-          formationId: item.formationId,
-          tactic: {
-            defenseStyle: item.defenseStyle,
-            defenseWidth: item.defenseWidth,
-            defenseDepth: item.defenseDepth,
-            offenseStyle: item.offenseStyle,
-            offenseWidth: item.offenseWidth,
-            offensePlayersInBox: item.offensePlayersInBox,
-            corners: item.corners,
-            freeKicks: item.freeKicks,
-          },
-          positions: JSON.parse(item.positions),
-          meta: {
-            tags: item.tags,
-            description: item.description,
-            redditUrl: item.redditUrl,
-            squadUrl: item.squadUrl,
-            guideUrl: item.guideUrl,
-            userName: item.userinfo.login,
-            userId: item.userinfo._id,
-          },
-        };
+        const tacticData = formatTacticData(item);
 
         setTactic(tacticData);
         setTimeout(() => {
           setIsLoading(false);
-        }, 500);
+        }, 700);
       } catch (error) {
         const { data } = error.response;
         setFetchError(data.message);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 700);
       }
     };
     fetchTactic();
@@ -82,13 +67,17 @@ const Tactic = () => {
   return (
     <>
       <Heading>Tactic details</Heading>
-      {fetchError && <Notyfication error>{fetchError}</Notyfication>}
+      {fetchError && (
+        <Notyfication onClose={() => setFetchError(null)} error>
+          {fetchError}
+        </Notyfication>
+      )}
       {tactic.formationId ? (
         <TacticProvider initialTacticData={tactic} mode={tacticsViewModes.view}>
           <MultiStep.Wizard>
             <StyledToolsWrapper>
               <MultiStep.Breadcrumb />
-              {isAdmin() || (isOwner(tactic.meta.userId) && <TacticToolsDropdown tacticId={id} />)}
+              {(isAdmin() || isOwner(tactic.meta.userId)) && <TacticToolsDropdown tacticId={id} />}
             </StyledToolsWrapper>
             <MultiStep.Page pageIndex={1} pageTitle="Informations">
               <InformationsStep

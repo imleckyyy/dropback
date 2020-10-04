@@ -15,7 +15,7 @@ const ButtonIcon = styled.button`
   svg {
     width: 45%;
     height: 45%;
-    fill: ${({ theme }) => theme.lightGray};
+    fill: var(--color-text);
   }
 
   &:hover {

@@ -10,11 +10,13 @@ import positionsByFormation from 'constants/positionsByFormation';
 
 const StyledWrapper = styled.div`
   position: relative;
+  height: calc(100vh - 400px);
   max-width: 45%;
 `;
 
 const StyledImage = styled.img`
   max-width: 100%;
+  height: 100%;
 `;
 
 const StyledPlayersWrapper = styled.div`
@@ -42,11 +44,18 @@ const StyledPlayerItem = styled.button`
   background-position: center center;
   background-size: cover;
   color: #ffffff;
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-weight: var(--font-weight-semibold);
   border: none;
   cursor: pointer;
   outline: none;
   transition: opacity 300ms ease;
+
+  &:focus {
+    background: url(${() => ActivePlayerImage});
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+  }
 
   &:hover {
     opacity: 0.85;

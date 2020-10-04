@@ -11,9 +11,9 @@ import selectedUsers from 'constants/selectedUsers';
 
 const StyledColorfulHeading = styled(Heading)`
   display: block;
-  font-size: ${({ theme }) => theme.fontSize.xl};
+  font-size: var(--font-size-xl);
   text-align: center;
-  background: ${({ theme }) => theme.gradient};
+  background: var(--color-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -25,7 +25,7 @@ const StyledTextSeparator = styled.p`
   text-align: center;
   text-transform: uppercase;
   padding: 20px;
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-weight: var(--font-weight-regular);
 `;
 
 const StyledSeparator = styled.div`

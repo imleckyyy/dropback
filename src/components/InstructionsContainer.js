@@ -20,6 +20,7 @@ const InstructionsContainer = ({ instructionsSet, instructionsValues, changeFn }
           id={item.id}
           name={item.name}
           value={value}
+          defaultValue={item.defaultId}
           settings={item.settings}
           onChange={changeFn}
         />

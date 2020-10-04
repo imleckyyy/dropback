@@ -1,7 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getFormationName } from 'utils';
+import styled from 'styled-components';
+import { getFormationName } from 'utils/tactic';
 import TagsList from 'components/TagsList';
+import Pitch from 'components/Pitch';
+
+const StyledWrapper = styled.div`
+  display: flex;
+`;
+
+const StyledBox = styled.div`
+  flex: 1;
+  min-width: 40%;
+`;
 
 const InformationsStep = ({
   formationId,
@@ -14,16 +25,18 @@ const InformationsStep = ({
   userId,
 }) => {
   return (
-    <>
-      <TagsList tags={tags} />
-      <p>Formation: {getFormationName(formationId)}</p>
-      <p>Creator: {userName}</p>
-      <p>Tags:</p>
-      {description && <p>Description: {description}</p>}
-      {redditUrl && <p>Reddit Url: {redditUrl}</p>}
-      {squadUrl && <p>Squad Url: {squadUrl}</p>}
-      {guideUrl && <p>Guide Url: {guideUrl}</p>}
-    </>
+    <StyledWrapper>
+      <StyledBox>
+        <TagsList tags={tags} />
+        <p>Formation: {getFormationName(formationId)}</p>
+        <p>Creator: {userName}</p>
+        {description && <p>Description: {description}</p>}
+        {redditUrl && <p>Reddit Url: {redditUrl}</p>}
+        {squadUrl && <p>Squad Url: {squadUrl}</p>}
+        {guideUrl && <p>Guide Url: {guideUrl}</p>}
+      </StyledBox>
+      <Pitch formationId={formationId} />
+    </StyledWrapper>
   );
 };
 
