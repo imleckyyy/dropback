@@ -1,6 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import bgImage1 from 'assets/bg_01.png';
-import bgImage2 from 'assets/bg_02.png';
 
 const GlobalStyles = createGlobalStyle`
     *, *:before, *:after {
@@ -41,15 +39,19 @@ const GlobalStyles = createGlobalStyle`
         --color-error: hsl(355deg, 60%, 28%);
         --color-error-background: hsl(355deg, 68%, 91%);
         --color-error-border: hsl(355deg, 70%, 87%);
-        --color-gray-100: hsl(225deg, 25%, 95%);
-        --color-gray-200: hsl(225deg, 16%, 90%);
-        --color-gray-300: hsl(225deg, 8%, 80%);
-        --color-gray-400: hsl(225deg, 8%, 70%);
-        --color-gray-500: hsl(225deg, 7%, 60%);
-        --color-gray-600: hsl(225deg, 15%, 50%);
-        --color-gray-700: hsl(225deg, 12%, 40%);
-        --color-gray-900: hsl(225deg, 25%, 20%);
-        --color-gray-1000: hsl(225deg, 15%, 15%);
+        --color-button-text: hsl(0deg, 0%, 100%);
+        --color-button-background: var(--color-gradient);
+        --color-button-text-hover: hsl(0deg, 0%, 100%);
+        --color-button-background-hover: hsl(0deg, 0%, 15%);
+        --color-gray-100: hsl(0deg, 0%, 95%);
+        --color-gray-200: hsl(0deg, 0%, 80%);
+        --color-gray-300: hsl(0deg, 0%, 70%);
+        --color-gray-400: hsl(0deg, 0%, 60%);
+        --color-gray-500: hsl(0deg, 0%, 50%);
+        --color-gray-600: hsl(0deg, 0%, 40%);
+        --color-gray-700: hsl(0deg, 0%, 30%);
+        --color-gray-900: hsl(0deg, 0%, 20%);
+        --color-gray-1000: hsl(0deg, 0%, 10%);
 
         font-size: 62.5%;
         height: 100%;
@@ -63,10 +65,7 @@ const GlobalStyles = createGlobalStyle`
         padding: 0;
         margin: 0;
         background-color: var(--color-background);
-        /* background-image: url(${() => bgImage1}), url(${() => bgImage2}); */
-        background-attachment: fixed, fixed;
-        background-position: 20% 20%, right bottom;
-        background-repeat: no-repeat, no-repeat;
+        background-image: linear-gradient(to bottom right, var(--color-background), #140f17);
     }
 
     body, input, button, select, option {

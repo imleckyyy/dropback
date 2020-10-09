@@ -6,7 +6,15 @@ import Sidebar from 'components/Sidebar';
 import UserSidebar from 'components/UserSidebar';
 
 const StyledChildrenWrapper = styled.div`
-  padding: 160px 70px 70px 190px;
+  padding: 110px 20px 20px 70px;
+
+  @media (min-width: 740px) {
+    padding: 110px 70px 70px 170px;
+  }
+
+  @media (min-width: 960px) {
+    padding: 110px 70px 70px 190px;
+  }
 `;
 
 function AppShell({ children }) {

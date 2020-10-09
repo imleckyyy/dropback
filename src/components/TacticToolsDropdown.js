@@ -8,7 +8,7 @@ import ButtonIcon from 'components/common/ButtonIcon';
 import Anchor from 'components/common/Anchor';
 import Button from 'components/common/Button';
 import Loader from 'components/Loader';
-import Notyfication from 'components/common/Notyfication';
+import Notyfication from 'components/Notyfication';
 
 import useOutsideClick from 'hooks/useOutsideClick';
 

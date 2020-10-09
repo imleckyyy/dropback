@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
@@ -10,7 +10,7 @@ import Logo from 'components/common/Logo';
 import Button from 'components/common/Button';
 import Anchor from 'components/common/Anchor';
 import Heading from 'components/common/Heading';
-import Notyfication from 'components/common/Notyfication';
+import Notyfication from 'components/Notyfication';
 import FormField from 'components/FormField';
 
 const StyledWrapper = styled.div`
@@ -56,6 +56,10 @@ const Signin = () => {
   const [loginError, setLoginError] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
   const [redirectOnLogin, setRedirectOnLogin] = useState(isAuthenticated);
+
+  useEffect(() => {
+    document.title = `Login | DROPBACK`;
+  }, []);
 
   const submitCredentials = async (credentials) => {
     try {

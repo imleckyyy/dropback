@@ -1,18 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-const StyledLoaderWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  z-index: 999;
-  position: fixed;
-  top: 0;
-  left: 0;
-`;
-
 const loaderAnim = keyframes`
   0% {
     top: 36px;
@@ -28,6 +16,20 @@ const loaderAnim = keyframes`
     height: 72px;
     opacity: 0;
   }
+`;
+
+const StyledLoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(5px);
 `;
 
 const StyledLoader = styled.div`

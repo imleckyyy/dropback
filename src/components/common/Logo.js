@@ -16,6 +16,11 @@ const StyledLogoWrapper = styled.div`
   height: 85px;
   background: var(--color-gradient);
 
+  @media (min-width: 740px) {
+    width: 85px;
+    height: 85px;
+  }
+
   &:before {
     content: '';
     position: absolute;

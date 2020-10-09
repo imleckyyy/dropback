@@ -14,6 +14,11 @@ const StyledBox = styled.div`
   min-width: 40%;
 `;
 
+const StyledInformationsWrapper = styled.div`
+  background: var(--color-background-lighter);
+  padding: 15px;
+`;
+
 const InformationsStep = ({
   formationId,
   tags,
@@ -27,13 +32,15 @@ const InformationsStep = ({
   return (
     <StyledWrapper>
       <StyledBox>
-        <TagsList tags={tags} />
-        <p>Formation: {getFormationName(formationId)}</p>
-        <p>Creator: {userName}</p>
-        {description && <p>Description: {description}</p>}
-        {redditUrl && <p>Reddit Url: {redditUrl}</p>}
-        {squadUrl && <p>Squad Url: {squadUrl}</p>}
-        {guideUrl && <p>Guide Url: {guideUrl}</p>}
+        <StyledInformationsWrapper>
+          <TagsList tags={tags} />
+          <p>Formation: {getFormationName(formationId)}</p>
+          <p>Creator: {userName}</p>
+          {description && <p>Description: {description}</p>}
+          {redditUrl && <p>Reddit Url: {redditUrl}</p>}
+          {squadUrl && <p>Squad Url: {squadUrl}</p>}
+          {guideUrl && <p>Guide Url: {guideUrl}</p>}
+        </StyledInformationsWrapper>
       </StyledBox>
       <Pitch formationId={formationId} />
     </StyledWrapper>

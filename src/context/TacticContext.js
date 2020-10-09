@@ -166,7 +166,6 @@ const TacticProvider = ({ children, initialTacticData, mode }) => {
         changeMetaData,
       }}
     >
-      {mode}
       {children}
     </Provider>
   );

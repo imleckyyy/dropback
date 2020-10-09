@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Input from 'components/common/Input';
-import Notyfication from 'components/common/Notyfication';
+import Notyfication from 'components/Notyfication';
 
 const StyledWrapper = styled.div`
   position: relative;

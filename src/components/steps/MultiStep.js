@@ -16,7 +16,7 @@ const StyledBreadcrumbsList = styled.ul`
   position: relative;
   display: flex;
   padding: 0;
-  margin: 20px 0;
+  margin: 0 0 20px;
 
   &:before,
   &:after {
@@ -84,6 +84,11 @@ const StyledBreadcrumbsButton = styled(Button)`
     z-index: 1;
   }
 
+  &:hover:before {
+      border-left: 20px solid var(--color-button-background-hover);
+    }
+  }
+
   ${({ isActive }) =>
     isActive &&
     css`
@@ -91,6 +96,10 @@ const StyledBreadcrumbsButton = styled(Button)`
 
       &:hover {
         background: var(--color-gradient);
+
+        &:before {
+          border-left: 20px solid var(--color-gradient-end);
+        }
       }
 
       &:before {

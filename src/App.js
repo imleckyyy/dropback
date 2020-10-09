@@ -12,6 +12,7 @@ import Tactic from 'pages/Tactic';
 import Creator from 'pages/Creator';
 import Signin from 'pages/Signin';
 import Signup from 'pages/Signup';
+import User from 'pages/User';
 
 import AppShell from './AppShell';
 
@@ -67,6 +68,9 @@ const AppRoutes = () => (
     </AppShellRoute>
     <AppShellRoute path={routes.tactic}>
       <Tactic />
+    </AppShellRoute>
+    <AppShellRoute path={routes.user}>
+      <User />
     </AppShellRoute>
     <AuthenticatedRoute exact path={routes.creator}>
       <Creator />

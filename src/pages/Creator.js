@@ -7,8 +7,9 @@ import { AuthContext } from 'context/AuthContext';
 import { FetchContext } from 'context/FetchContext';
 import { TacticProvider } from 'context/TacticContext';
 
+import Heading from 'components/common/Heading';
 import Loader from 'components/Loader';
-import Notyfication from 'components/common/Notyfication';
+import Notyfication from 'components/Notyfication';
 
 import * as MultiStep from 'components/steps/MultiStep';
 import FormationStep from 'components/steps/FormationStep';
@@ -31,6 +32,10 @@ const Creator = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState(null);
+
+  useEffect(() => {
+    document.title = `FIFA 21 Tactic creator | DROPBACK`;
+  }, []);
 
   useEffect(() => {
     const isEditMode = pathname.indexOf('/edit') !== -1;
@@ -83,6 +88,7 @@ const Creator = () => {
   return (
     <>
       {isLoading && <Loader />}
+      <Heading>{mode} tactic</Heading>
       <TacticProvider initialTacticData={tactic || null} mode={mode}>
         <MultiStep.Wizard>
           {fetchError && (

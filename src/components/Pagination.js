@@ -19,7 +19,8 @@ const StyledListItem = styled.li`
 
 const StyledButton = styled(Button)`
   position: relative;
-  padding: 5px 15px;
+  padding: 5px 10px 5px 20px;
+  background: var(--color-button-background-hover);
 
   &:before,
   &:after {
@@ -35,7 +36,7 @@ const StyledButton = styled(Button)`
 
   &:before {
     right: -10px;
-    border-left: 10px solid var(--color-background-lighter);
+    border-left: 10px solid var(--color-button-background-hover);
     z-index: 2;
   }
 
@@ -58,6 +59,14 @@ const StyledButton = styled(Button)`
 
       &:before {
         border-left: 10px solid var(--color-gradient-end);
+      }
+
+      &:hover {
+        background: var(--color-button-background-hover);
+
+        &:before {
+          border-left: 10px solid var(--color-button-background-hover);
+        }
       }
     `}
 `;

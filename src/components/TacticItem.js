@@ -10,12 +10,27 @@ import { formatDmy, diffDays } from 'utils';
 
 const StyledWrapper = styled.div`
   display: flex;
-  flex: 0 0 25%;
-  max-width: 25%;
+  flex: 0 0 100%;
+  max-width: 100%;
   width: 100%;
   padding-right: 5px;
   padding-left: 5px;
   margin-bottom: 10px;
+
+  @media (min-width: 740px) {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  @media (min-width: 960px) {
+    flex: 0 0 33.33333%;
+    max-width: 33.33333%;
+  }
+
+  @media (min-width: 1200px) {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
 `;
 
 const StyledSubWrapper = styled.div`
@@ -37,6 +52,7 @@ const StyledTagsWrapper = styled.div`
 
 const StyledParagraph = styled(Paragraph)`
   font-size: var(--font-size-xs);
+  text-align: center;
 `;
 
 const StyledFormationName = styled(Anchor)`
@@ -59,6 +75,7 @@ const StyledNewLabel = styled.span`
   transform: rotate(45deg);
   font-size: var(--font-size-xxs);
   font-weight: var(--font-weight-semibold);
+  z-index: 3;
 `;
 
 const TacticItem = ({ item }) => {

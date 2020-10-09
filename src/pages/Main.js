@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -66,36 +66,42 @@ const StyledFormationLink = styled(Button)`
   text-align: center;
 `;
 
-const Main = () => (
-  <>
-    <StyledColorfulHeading>
-      Your no 1 website for FIFA tactics
-      <br />
-      from content creators and YOU
-    </StyledColorfulHeading>
+const Main = () => {
+  useEffect(() => {
+    document.title = `FIFA 21 Tactics database | DROPBACK`;
+  }, []);
 
-    <SearchBar />
+  return (
+    <>
+      <StyledColorfulHeading>
+        Your no 1 website for FIFA tactics
+        <br />
+        from content creators and YOU
+      </StyledColorfulHeading>
 
-    <StyledTextSeparator>or</StyledTextSeparator>
+      <SearchBar />
 
-    <StyledFiltersWrapper>
-      {formationTypes.map(({ id, name }) => (
-        <StyledFormationLink as={Link} to={`/tactics?formationId=${id}`} key={id} primary="true">
-          {name}
-        </StyledFormationLink>
-      ))}
-    </StyledFiltersWrapper>
+      <StyledTextSeparator>or</StyledTextSeparator>
 
-    <StyledSeparator />
+      <StyledFiltersWrapper>
+        {formationTypes.map(({ id, name }) => (
+          <StyledFormationLink as={Link} to={`/tactics?formationId=${id}`} key={id} primary="true">
+            {name}
+          </StyledFormationLink>
+        ))}
+      </StyledFiltersWrapper>
 
-    <StyledFiltersWrapper>
-      {selectedUsers.map(({ name, href }) => (
-        <StyledFormationLink as={Link} to={`/users${href}`} key={href}>
-          {name}
-        </StyledFormationLink>
-      ))}
-    </StyledFiltersWrapper>
-  </>
-);
+      <StyledSeparator />
+
+      <StyledFiltersWrapper>
+        {selectedUsers.map(({ name, href }) => (
+          <StyledFormationLink as={Link} to={`/users${href}`} key={href}>
+            {name}
+          </StyledFormationLink>
+        ))}
+      </StyledFiltersWrapper>
+    </>
+  );
+};
 
 export default Main;

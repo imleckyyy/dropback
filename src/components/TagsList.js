@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const StyledWrapper = styled.ul`
   display: flex;
-  width: calc(100% - 45px);
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -17,7 +16,7 @@ const StyledTag = styled.li`
   margin-right: 10px;
   text-align: left;
   background: var(--color-background);
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-xxs);
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   text-decoration: none;

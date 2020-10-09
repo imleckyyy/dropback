@@ -6,4 +6,5 @@ export const routes = {
   tactic: '/tactic/:id',
   creator: '/creator',
   edit: '/creator/:id/edit',
+  user: '/users/:login',
 };

@@ -11,18 +11,17 @@ import Heading from 'components/common/Heading';
 import Paragraph from 'components/common/Paragraph';
 import Anchor from 'components/common/Anchor';
 import Button from 'components/common/Button';
-import Notyfication from 'components/common/Notyfication';
+import Notyfication from 'components/Notyfication';
 
 const StyledWrapper = styled.div`
   position: fixed;
   top: 40px;
   right: 30px;
+  z-index: 5;
 `;
 
 const StyledAuthLinkWrapper = styled.div`
   display: block;
-  padding: 15px 40px;
-  border: 1px solid var(--color-background-lighter);
 `;
 
 const StyledSidebarWrapper = styled.div`
@@ -159,7 +158,7 @@ const UserSidebar = () => {
     <StyledWrapper>
       <StyledAuthLinkWrapper>
         {isAuthenticated() && authState.userInfo.login ? (
-          <Button type="button" text onClick={() => setIsVisible(true)}>
+          <Button type="button" onClick={() => setIsVisible(true)}>
             {authState.userInfo.login}
           </Button>
         ) : (

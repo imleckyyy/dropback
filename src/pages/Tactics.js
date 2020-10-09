@@ -5,7 +5,7 @@ import { FetchContext } from 'context/FetchContext';
 import useQuery from 'hooks/useQuery';
 
 import Heading from 'components/common/Heading';
-import Notyfication from 'components/common/Notyfication';
+import Notyfication from 'components/Notyfication';
 import Loader from 'components/Loader';
 import TacticItem from 'components/TacticItem';
 import Pagination from 'components/Pagination';
@@ -16,6 +16,7 @@ const StyledGridWrapper = styled.div`
   flex: 1;
   margin-right: -5px;
   margin-left: -5px;
+  margin-bottom: 30px;
 `;
 
 const Tactics = () => {
@@ -27,10 +28,14 @@ const Tactics = () => {
   const { apiAxios } = useContext(FetchContext);
 
   const [tactics, setTactics] = useState([]);
-  const [currentPage, setCurrentPage] = useState(query.get('page') || 1);
+  const [currentPage, setCurrentPage] = useState(query.get('page') ? Number(query.get('page')) : 1);
   const [totalItems, setTotalItems] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
+
+  useEffect(() => {
+    document.title = `FIFA 21 Tactics | DROPBACK`;
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -59,10 +64,6 @@ const Tactics = () => {
 
   const onPageChange = (page) => {
     setCurrentPage(page);
-    // console.log(location);
-
-    // query.set('page', 2);
-    // console.log(query.toString());
     query.set('page', page);
     const newQueryString = query.toString();
     history.push(`/tactics?${newQueryString}`);
@@ -90,7 +91,7 @@ const Tactics = () => {
           <Pagination
             totalItems={totalItems}
             currentPage={currentPage}
-            pageLimit={2}
+            pageLimit={20}
             onPageChanged={onPageChange}
           />
         </>

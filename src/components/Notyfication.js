@@ -46,6 +46,7 @@ const StyledWrapper = styled.div`
 const StyledParagraph = styled(Paragraph)`
   flex: 1;
   font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
 `;
 
 const StyledButtonIcon = styled(ButtonIcon)`

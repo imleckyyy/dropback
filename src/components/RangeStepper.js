@@ -12,6 +12,18 @@ const StyledRangeWrapper = styled.div`
   display: flex;
   align-items: center;
   flex: 1;
+
+  unicode-bidi: bidi-override;
+  direction: rtl;
+
+  & > button:hover,
+  & > button:hover ~ button {
+    background: var(--color-primary);
+
+    &:before {
+      border-left: 10px solid var(--color-primary);
+    }
+  }
 `;
 
 const StyledRangeItem = styled.button`
@@ -94,8 +106,8 @@ const RangeStepper = ({ value, maxValue, onChange, readOnly }) => {
   };
 
   const items = [];
-  for (let index = 0; index < maxValue; index += 1) {
-    const currentIndex = index + 1;
+  for (let index = maxValue; index > 0; index -= 1) {
+    const currentIndex = index;
     items.push(
       <StyledRangeItem
         type="button"

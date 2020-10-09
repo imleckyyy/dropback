@@ -17,21 +17,24 @@ const Button = styled.button`
   cursor: pointer;
   outline: none;
   border: none;
-  background: var(--color-gradient);
-  color: var(--color-text);
+  background: var(--color-button-background);
+  color: var(--color-button-text);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
 
   &:hover {
-    background: var(--color-background-lighter);
+    background: var(--color-button-background-hover);
+    color: var(--color-button-text-hover);
   }
 
   ${({ primary }) =>
     primary &&
     css`
-      background: var(--color-background-lighter);
+      background: var(--color-button-background-hover);
+      color: var(--color-button-text-hover);
       &:hover {
-        background: var(--color-gradient);
+        background: var(--color-button-background);
+        color: var(--color-button-text);
       }
     `}
 

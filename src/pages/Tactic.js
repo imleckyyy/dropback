@@ -9,7 +9,7 @@ import { FetchContext } from 'context/FetchContext';
 import { TacticProvider } from 'context/TacticContext';
 
 import Heading from 'components/common/Heading';
-import Notyfication from 'components/common/Notyfication';
+import Notyfication from 'components/Notyfication';
 import Loader from 'components/Loader';
 import TacticToolsDropdown from 'components/TacticToolsDropdown';
 
@@ -39,6 +39,10 @@ const Tactic = () => {
   const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
+    document.title = `FIFA 21 Tactic | DROPBACK`;
+  }, []);
+
+  useEffect(() => {
     setIsLoading(true);
     const fetchTactic = async () => {
       try {
@@ -66,7 +70,7 @@ const Tactic = () => {
 
   return (
     <>
-      <Heading>Tactic details</Heading>
+      <Heading>Tactic</Heading>
       {fetchError && (
         <Notyfication onClose={() => setFetchError(null)} error>
           {fetchError}

@@ -17,39 +17,48 @@ const StyledWrapper = styled.aside`
   position: fixed;
   top: 0;
   left: 0;
-  width: 120px;
-  height: 100vh;
+  width: 100%;
+  height: 80px;
   display: flex;
   align-items: center;
-  flex-direction: column;
   padding: 20px 10px;
   background: var(--color-background-lighter);
   z-index: 2;
 
-  &:before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    bottom: 0px;
-    display: block;
-    width: 100%;
-    height: 240px;
-    background: url(${() => DotsImage});
-    background-size: 95%;
-    filter: invert(1);
-    opacity: 0.7;
+  @media (min-width: 768px) {
+    width: 100px;
+    height: 100vh;
+    flex-direction: column;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      bottom: 0px;
+      display: block;
+      width: 100%;
+      height: 240px;
+      background: url(${() => DotsImage});
+      background-size: 95%;
+      filter: invert(1);
+      opacity: 0.7;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      bottom: 30px;
+      display: block;
+      width: 18px;
+      height: 234px;
+      background: url(${() => AsideDecorationImage});
+      background-repeat: no-repeat;
+    }
   }
 
-  &:after {
-    content: '';
-    position: absolute;
-    left: 100%;
-    bottom: 30px;
-    display: block;
-    width: 18px;
-    height: 234px;
-    background: url(${() => AsideDecorationImage});
-    background-repeat: no-repeat;
+  @media (min-width: 960px) {
+    width: 120px;
   }
 `;
 
@@ -61,9 +70,12 @@ const StyledNav = styled.nav`
 
 const StyledList = styled.ul`
   display: flex;
-  flex-direction: column;
   margin: 0;
   padding: 0;
+
+  @media (min-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledListItem = styled.li`
@@ -82,12 +94,12 @@ const navItems = [
   {
     to: routes.home,
     icon: <HomeIcon />,
-    title: 'Home page',
+    title: 'Home',
   },
   {
     to: routes.tactics,
     icon: <FilterIcon />,
-    title: 'Tactics list',
+    title: 'Tactics',
   },
   {
     to: routes.creator,

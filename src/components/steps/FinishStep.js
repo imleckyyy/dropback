@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import Heading from 'components/common/Heading';
 import FormField from 'components/FormField';
 import Button from 'components/common/Button';
-import Notyfication from 'components/common/Notyfication';
+import Notyfication from 'components/Notyfication';
 
 import { TacticContext } from 'context/TacticContext';
 import { FetchContext } from 'context/FetchContext';
